@@ -5,10 +5,9 @@ let currentSlide = 0;
 let currentProductSlide = 0;
 let inquiryList = [];
 let currentProduct = null;
-let products = [];
 
 // Initialize application
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     initializeApp();
 });
 
@@ -23,175 +22,85 @@ function initializeApp() {
 
 // Product Data - Using accurate data from GitHub
 function loadProductData() {
-    products = [
-        {
-            id: "001",
-            name: "Pearflam-SP",
-            subtitle: "Accelofenac, Serratiopeptidase & Paracetamol Tablets",
-            composition: "Each tablet contains Accelofenac 100mg, Serratiopeptidase 15mg, and Paracetamol 500mg",
-            indications: "For the treatment of pain and inflammation in conditions like rheumatoid arthritis, osteoarthritis, ankylosing spondylitis, dental pain, and post-operative inflammation",
-            dosage: "As directed by the physician. Usually 1 tablet twice daily after meals",
-            packaging: "10 strips of 10 tablets each, Aluminium Foil",
-            category: "Pain Relief",
-            description: "Triple action formula for effective pain and inflammation management",
-            images: [
-                "./images/pearflam/1.png",
-                "./images/pearflam/2.png",
-                "./images/pearflam/3.png"
-            ]
-        },
-        {
-            id: "002", 
-            name: "Limson-LC",
-            subtitle: "Levocetirizine & Montelukast Tablets",
-            composition: "Levocetirizine 5mg + Montelukast 10mg",
-            indications: "Allergic rhinitis, hay fever, and chronic urticaria",
-            dosage: "As prescribed by the physician. Usually once daily at night",
-            packaging: "10 strips of 10 tablets each",
-            category: "Allergy Care",
-            description: "Dual action allergy relief for respiratory conditions",
-            images: [
-                "./images/limson/1.png",
-                "./images/limson/2.png",
-                "./images/limson/3.png",
-                "./images/limson/4.png"
-            ]
-        },
-        {
-            id: "003",
-            name: "Oflar-OZ",
-            subtitle: "Ofloxacin & Ornidazole Tablets",
-            composition: "Ofloxacin 200mg + Ornidazole 500mg",
-            indications: "Acute diarrhea, dysentery, and other gastrointestinal infections",
-            dosage: "As directed by the physician. Typically twice daily",
-            packaging: "10 strips of 10 tablets each",
-            category: "Antibiotic",
-            description: "Broad spectrum antibiotic with anti-protozoal action",
-            images: [
-                "./images/Oflar/1.png",
-                "./images/Oflar/2.png",
-                "./images/Oflar/3.png",
-                "./images/Oflar/4.png"
-            ]
-        },
-        {
-            id: "004",
-            name: "PearCEF 200 DT",
-            subtitle: "Cefixime Dispersible Tablets 200mg",
-            composition: "Each dispersible tablet contains Cefixime 200mg",
-            indications: "Used for respiratory tract infections, urinary tract infections, and otitis media",
-            dosage: "As advised by the physician",
-            packaging: "10 strips of 10 dispersible tablets",
-            category: "Antibiotic",
-            description: "Third generation cephalosporin antibiotic in dispersible form",
-            images: [
-                "./images/pearcef/1.png",
-                "./images/pearcef/2.png",
-                "./images/pearcef/3.png",
-                "./images/pearcef/4.png"
-            ]
-        },
-        {
-            id: "005",
-            name: "Bitson-B12",
-            subtitle: "Methylcobalamin, Niacinamide & Pyridoxine Injection",
-            composition: "Each ampoule contains Methylcobalamin 1500mcg, Niacinamide 100mg, Pyridoxine HCl 100mg",
-            indications: "Used in the treatment of peripheral neuropathy, vitamin B12 deficiency, and general weakness",
-            dosage: "As prescribed by the physician",
-            packaging: "1ml ampoule, box of 5 ampoules",
-            category: "Injectable",
-            description: "Advanced neurotropic supplement for nerve health",
-            images: [
-                "./images/bitson/1.png",
-                "./images/bitson/2.png"
-            ]
-        },
-        {
-            id: "006",
-            name: "Clavson-CV 625",
-            subtitle: "Amoxicillin & Potassium Clavulanate Tablets IP",
-            composition: "Amoxicillin 500mg + Clavulanic Acid 125mg",
-            indications: "Effective in respiratory tract infections, sinusitis, urinary tract infections, skin infections, and dental infections",
-            dosage: "As directed by the physician. Usually 1 tablet every 8 or 12 hours",
-            packaging: "10 strips of 10 tablets each",
-            category: "Antibiotic",
-            description: "Beta-lactam antibiotic with beta-lactamase inhibitor",
-            images: [
-                "./images/clavson/1.png",
-                "./images/clavson/2.png",
-                "./images/clavson/3.png"
-            ]
-        },
-        {
-            id: "007",
-            name: "RSON-DSR",
-            subtitle: "Rabeprazole Sodium (EC) & Domperidone (SR) Capsules",
-            composition: "Rabeprazole Sodium 20mg (enteric coated) + Domperidone 30mg (sustained release)",
-            indications: "GERD, acid reflux, and other gastric disorders",
-            dosage: "One capsule daily before meal or as directed by physician",
-            packaging: "10 strips of 10 capsules",
-            category: "Gastro Care",
-            description: "Proton pump inhibitor with prokinetic agent",
-            images: [
-                "./images/rson/1.jpg"
-            ]
-        },
-        {
-            id: "008",
-            name: "Qcold-X",
-            subtitle: "Terbutaline, Guaiphenesin, Ambroxol HCL & Menthol Syrup",
-            composition: "Terbutaline 1.25mg, Guaiphenesin 50mg, Ambroxol HCL 15mg, Menthol 2.5mg per 5ml",
-            indications: "Relief from productive cough, congestion, and bronchospasm",
-            dosage: "5ml 2–3 times daily or as prescribed",
-            packaging: "100ml bottle with measuring cap, Mix Fruit flavour",
-            category: "Syrup",
-            description: "Multi-action syrup for productive cough relief",
-            images: [
-                "./images/qcoldx/1.jpg"
-            ]
-        },
-        {
-            id: "009",
-            name: "Qcold-Dx",
-            subtitle: "Dextromethorphan, Phenylephrine HCL & Chlorpheniramine Maleate Syrup",
-            composition: "Dextromethorphan 10mg, Phenylephrine 5mg, Chlorpheniramine Maleate 2mg per 5ml",
-            indications: "Dry cough, cold, nasal congestion, and allergic symptoms",
-            dosage: "5ml 2–3 times daily or as directed",
-            packaging: "100ml bottle with measuring cap, Strawberry flavour",
-            category: "Syrup",
-            description: "Effective dry cough suppressant with decongestant",
-            images: [
-                "./images/qcolddx/1.jpg"
-            ]
-        },
-        {
-            id: "010",
-            name: "Cefvit 1gm",
-            subtitle: "Ceftriaxone Injection IP",
-            composition: "Each vial contains Ceftriaxone Sodium equivalent to Ceftriaxone 1gm",
-            indications: "Bacterial infections including respiratory tract, urinary tract, skin, soft tissue, and gynecological infections",
-            dosage: "As directed by the physician. Administered IM/IV",
-            packaging: "Vial with sterile water for injection",
-            category: "Injectable",
-            description: "Third generation cephalosporin for severe infections",
-            images: [
-                "./images/cefvit/1.png",
-                "./images/cefvit/2.png",
-                "./images/cefvit/3.png"
-            ]
-        }
-    ];
-    
-    displayProducts();
+    displayProducts(products);
     // displayFeaturedProducts();
+}
+
+// Image resolution helpers: build candidate URLs and preload to find existing images
+function slugifyName(name) {
+    if (!name) return '';
+    return name.toString().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+}
+
+function getImageFolder(product) {
+    if (!product) return '';
+    if (product.image_folder) return product.image_folder;
+    if (product.folder) return product.folder;
+    return slugifyName(product.name || product.id || 'product');
+}
+
+// Resolve product images by testing common candidate filenames. Calls callback(imagesArray).
+function resolveProductImages(product, callback, maxCount = 10) {
+    // If explicit images provided (backwards compatibility), use them immediately
+    if (product && Array.isArray(product.images) && product.images.length > 0) {
+        callback(product.images);
+        return;
+    }
+
+    const folder = getImageFolder(product);
+    if (!folder) {
+        callback([]);
+        return;
+    }
+
+    const candidates = [];
+    // common patterns: 1..maxCount and main
+    for (let i = 1; i <= maxCount; i++) {
+        candidates.push(`./images/${folder}/${i}.png`);
+        candidates.push(`./images/${folder}/${i}.jpg`);
+    }
+    candidates.push(`./images/${folder}/main.png`);
+    candidates.push(`./images/${folder}/main.jpg`);
+
+    const results = [];
+    let remaining = candidates.length;
+
+    // If no candidates, return empty
+    if (remaining === 0) return callback([]);
+
+    candidates.forEach(src => {
+        const img = new Image();
+        img.onload = function () {
+            results.push(src);
+            checkDone();
+        };
+        img.onerror = function () {
+            checkDone();
+        };
+        img.src = src;
+    });
+
+    function checkDone() {
+        remaining--;
+        if (remaining <= 0) {
+            // Remove duplicates and keep order
+            const unique = Array.from(new Set(results));
+            // Prefer any 'main' image (main.png/main.jpg/main.jpeg/main.webp) by moving it to the front
+            const mainIdx = unique.findIndex(u => /\/main\.(png|jpg|jpeg|webp)$/i.test(u));
+            if (mainIdx > 0) {
+                const [main] = unique.splice(mainIdx, 1);
+                unique.unshift(main);
+            }
+            callback(unique);
+        }
+    }
 }
 
 // FIXED: Navigation Functions - Use smooth scroll instead of hiding/showing sections
 function initializeNavigation() {
     const navLinks = document.querySelectorAll('.nav-link');
-    
     navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
+        link.addEventListener('click', function (e) {
             e.preventDefault();
             const section = this.getAttribute('data-section');
             navigateToSection(section);
@@ -202,7 +111,6 @@ function initializeNavigation() {
 // FIXED: Use smooth scrolling to sections instead of show/hide
 function navigateToSection(sectionName) {
     console.log('Navigating to:', sectionName);
-    
     const targetSection = document.getElementById(sectionName);
     if (targetSection) {
         targetSection.scrollIntoView({
@@ -210,12 +118,10 @@ function navigateToSection(sectionName) {
             block: 'start'
         });
     }
-    
     // Update nav links active state
     document.querySelectorAll('.nav-link').forEach(link => {
         link.classList.remove('active');
     });
-    
     const activeLink = document.querySelector(`[data-section="${sectionName}"]`);
     if (activeLink) {
         activeLink.classList.add('active');
@@ -230,9 +136,6 @@ function navigateToProducts() {
     navigateToSection('products');
 }
 
-function navigateToAbout() {
-    navigateToSection('about');
-}
 
 function navigateToContact() {
     navigateToSection('contact');
@@ -240,13 +143,53 @@ function navigateToContact() {
 
 // Hero Slider Functions
 function initializeHeroSlider() {
-    const slides = document.querySelectorAll('.hero-slide');
+    const slider = document.getElementById('heroSlider');
     const dotsContainer = document.getElementById('heroDots');
-    
-    if (!dotsContainer || slides.length === 0) return;
-    
+
+    if (!slider || !dotsContainer) return;
+
+    // Use the in-page `homeSlide` data (loaded via `data/home_slide.js`).
+    // `data/home_slide.js` should define `window.homeSlide` as an array of slide objects.
+    const slidesSource = window.homeSlide;
+    if (Array.isArray(slidesSource) && slidesSource.length > 0) {
+        renderHeroSlides(slidesSource, slider, dotsContainer);
+        return;
+    }
+
+    // No slide data available — fall back to static DOM slides if present
+    const staticSlides = document.querySelectorAll('.hero-slide');
+    if (!staticSlides || staticSlides.length === 0) return;
+    dotsContainer.innerHTML = '';
+    staticSlides.forEach((_, index) => {
+        const dot = document.createElement('div');
+        dot.classList.add('hero-dot');
+        if (index === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => goToSlide(index));
+        dotsContainer.appendChild(dot);
+    });
+    setInterval(nextSlide, 5000);
+}
+
+// Helper to render hero slides and dots
+function renderHeroSlides(slides, slider, dotsContainer) {
+    slider.innerHTML = '';
+    slides.forEach((s, index) => {
+        const slide = document.createElement('div');
+        slide.classList.add('hero-slide');
+        if (index === 0) slide.classList.add('active');
+        slide.innerHTML = `
+            <img src="${s.image}" alt="${s.title}">
+            <div class="hero-content">
+                <h1>${s.title}</h1>
+                <p>${s.subtitle}</p>
+            </div>
+        `;
+        slider.appendChild(slide);
+    });
+
     // Create dots
-    slides.forEach((slide, index) => {
+    dotsContainer.innerHTML = '';
+    slides.forEach((_, index) => {
         const dot = document.createElement('div');
         dot.classList.add('hero-dot');
         if (index === 0) dot.classList.add('active');
@@ -288,7 +231,7 @@ function previousSlide() {
 }
 
 // Product Functions
-function displayProducts() {
+function displayProducts(products) {
     const container = document.getElementById('productsGrid');
     if (!container) return;
     
@@ -300,20 +243,6 @@ function displayProducts() {
     });
 }
 
-// function displayFeaturedProducts() {
-//     const container = document.getElementById('featuredProducts');
-//     if (!container) return;
-    
-//     container.innerHTML = '';
-    
-//     // Show first 3 products as featured
-//     const featuredProducts = products.slice(0, 3);
-    
-//     featuredProducts.forEach(product => {
-//         const productCard = createProductCard(product);
-//         container.appendChild(productCard);
-//     });
-// }
 
 // Create product card with proper event handling
 function createProductCard(product) {
@@ -322,14 +251,11 @@ function createProductCard(product) {
     card.setAttribute('data-category', product.category);
     
     // Create image element with fallback
-    const imageHtml = product.images && product.images.length > 0 
-        ? `<img src="${product.images[0]}" alt="${product.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-           <div class="fallback-icon" style="display:none;">💊</div>`
-        : `<div class="fallback-icon">💊</div>`;
-    
+    // Start with a placeholder; we'll asynchronously resolve an actual image
     card.innerHTML = `
         <div class="product-image">
-            ${imageHtml}
+            <img class="product-thumb" src="" alt="${product.name}" style="display:none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="fallback-icon">💊</div>
         </div>
         <div class="product-info">
             <h4 class="product-name">${product.name}</h4>
@@ -341,50 +267,64 @@ function createProductCard(product) {
             </button>
         </div>
     `;
-    
+
     // Add click event to + button for adding to inquiry
     const addButton = card.querySelector('.card-add-button');
     if (addButton) {
-        addButton.addEventListener('click', function(e) {
+        addButton.addEventListener('click', function (e) {
             e.stopPropagation();
             addProductToInquiry(product.id);
         });
     }
-    
+
     // Add click event to entire card for opening modal (except + button)
-    card.addEventListener('click', function(e) {
+    card.addEventListener('click', function (e) {
         // Don't open modal if + button was clicked
         if (e.target.classList.contains('card-add-button') || e.target.closest('.card-add-button')) {
             return;
         }
         openProductModal(product.id);
     });
-    
+
+    // Resolve images asynchronously and set thumbnail when available
+    resolveProductImages(product, function (images) {
+        const imageElem = card.querySelector('.product-thumb');
+        const fallback = card.querySelector('.fallback-icon');
+        if (images && images.length > 0) {
+            if (imageElem) {
+                imageElem.src = images[0];
+                imageElem.style.display = 'block';
+            }
+            if (fallback) fallback.style.display = 'none';
+        } else {
+            if (imageElem) imageElem.style.display = 'none';
+            if (fallback) fallback.style.display = 'flex';
+        }
+    });
+
     return card;
 }
 
 // Add product to inquiry from card + button
 function addProductToInquiry(productId) {
-    console.log('Adding product to inquiry from card:', productId);
-    
     const product = products.find(p => p.id === productId);
     if (!product) {
         console.error('Product not found:', productId);
         return;
     }
-    
+
     const existing = inquiryList.find(item => item.id === productId);
     if (existing) {
         showNotification('Product already in inquiry list', 'warning');
         return;
     }
-    
+
     inquiryList.push({
         id: product.id,
         name: product.name,
         category: product.category
     });
-    
+
     updateInquiryCount();
     showNotification(`${product.name} added to inquiry list`, 'success');
     console.log('Current inquiry list:', inquiryList);
@@ -393,28 +333,31 @@ function addProductToInquiry(productId) {
 // Product Modal Functions with proper setup
 function openProductModal(productId) {
     console.log('Opening product modal for:', productId);
-    
+
     const product = products.find(p => p.id === productId);
     if (!product) {
         console.error('Product not found:', productId);
         return;
     }
-    
+
     // Set current product FIRST
     currentProduct = product;
     console.log('Current product set to:', currentProduct);
-    
+
     // Update modal content with product data
     updateModalContent(product);
-    setupProductImageSlider(product.images);
-    
+    // Resolve images dynamically (will use product.images if present for backward compatibility)
+    resolveProductImages(product, function (images) {
+        setupProductImageSlider(images);
+    });
+
     // Show modal
     const modal = document.getElementById('productModal');
     if (modal) {
         modal.classList.remove('hidden');
         modal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
-        
+
         // Add fade in animation
         setTimeout(() => {
             modal.style.opacity = '1';
@@ -432,7 +375,7 @@ function updateModalContent(product) {
         modalDosage: document.getElementById('modalDosage'),
         modalPackaging: document.getElementById('modalPackaging')
     };
-    
+
     if (elements.modalProductName) {
         elements.modalProductName.textContent = product.name;
         console.log('Set modal name to:', product.name);
@@ -460,31 +403,31 @@ function closeProductModal() {
 function setupProductImageSlider(images) {
     const slider = document.getElementById('productImageSlider');
     const dotsContainer = document.getElementById('productImageDots');
-    
+
     if (!slider || !dotsContainer) return;
-    
+
     slider.innerHTML = '';
     dotsContainer.innerHTML = '';
-    
+
     if (!images || images.length === 0) {
         slider.innerHTML = '<div class="product-slide active"><div class="fallback-icon">💊</div></div>';
         return;
     }
-    
+
     images.forEach((image, index) => {
         const slide = document.createElement('div');
         slide.classList.add('product-slide');
         if (index === 0) slide.classList.add('active');
-        
+
         slide.innerHTML = `
             <img src="${image}" alt="Product Image ${index + 1}" 
                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
                  onload="this.style.display='block'; this.nextElementSibling.style.display='none'">
             <div class="fallback-icon" style="display:none;">💊</div>
         `;
-        
+
         slider.appendChild(slide);
-        
+
         // Only create dots if there are multiple images
         if (images.length > 1) {
             const dot = document.createElement('div');
@@ -494,27 +437,27 @@ function setupProductImageSlider(images) {
             dotsContainer.appendChild(dot);
         }
     });
-    
+
     currentProductSlide = 0;
 }
 
 function goToProductSlide(index) {
     const slides = document.querySelectorAll('.product-slide');
     const dots = document.querySelectorAll('.image-dot');
-    
+
     slides.forEach(slide => slide.classList.remove('active'));
     dots.forEach(dot => dot.classList.remove('active'));
-    
+
     if (slides[index]) slides[index].classList.add('active');
     if (dots[index]) dots[index].classList.add('active');
-    
+
     currentProductSlide = index;
 }
 
 function nextProductImage() {
     const slides = document.querySelectorAll('.product-slide');
     if (slides.length <= 1) return;
-    
+
     currentProductSlide = (currentProductSlide + 1) % slides.length;
     goToProductSlide(currentProductSlide);
 }
@@ -522,7 +465,7 @@ function nextProductImage() {
 function previousProductImage() {
     const slides = document.querySelectorAll('.product-slide');
     if (slides.length <= 1) return;
-    
+
     currentProductSlide = (currentProductSlide - 1 + slides.length) % slides.length;
     goToProductSlide(currentProductSlide);
 }
@@ -530,24 +473,24 @@ function previousProductImage() {
 // Add to inquiry from modal bottom right + button
 function addToInquiry() {
     console.log('Adding to inquiry from modal. Current product:', currentProduct);
-    
+
     if (!currentProduct) {
         showNotification('No product selected', 'error');
         return;
     }
-    
+
     const existing = inquiryList.find(item => item.id === currentProduct.id);
     if (existing) {
         showNotification('Product already in inquiry list', 'warning');
         return;
     }
-    
+
     inquiryList.push({
         id: currentProduct.id,
         name: currentProduct.name,
         category: currentProduct.category
     });
-    
+
     updateInquiryCount();
     showNotification(`${currentProduct.name} added to inquiry list`, 'success');
     console.log('Updated inquiry list:', inquiryList);
@@ -572,14 +515,14 @@ function updateInquiryCount() {
 function updateInquiryList() {
     const container = document.getElementById('inquiryList');
     if (!container) return;
-    
+
     if (inquiryList.length === 0) {
         container.innerHTML = '<p class="text-center" style="color: var(--color-text-secondary); padding: 2rem;">No products in inquiry list</p>';
         return;
     }
-    
+
     container.innerHTML = '';
-    
+
     inquiryList.forEach(item => {
         const itemElement = document.createElement('div');
         itemElement.classList.add('inquiry-item');
@@ -604,7 +547,7 @@ function toggleInquiryCart() {
         modal.classList.remove('hidden');
         modal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
-        
+
         setTimeout(() => {
             modal.style.opacity = '1';
         }, 10);
@@ -636,24 +579,38 @@ function sendBulkInquiry() {
         showNotification('Please add products to inquiry list first', 'warning');
         return;
     }
-    
+
     const name = document.getElementById('inquiryName')?.value || '';
     const email = document.getElementById('inquiryEmail')?.value || '';
     const phone = document.getElementById('inquiryPhone')?.value || '';
     const company = document.getElementById('inquiryCompany')?.value || '';
     const message = document.getElementById('inquiryMessage')?.value || '';
-    
+
+    // Basic validation
     if (!name || !email || !phone) {
         showNotification('Please fill in all required fields', 'error');
         return;
     }
-    
-    const productList = inquiryList.map(item => `- ${item.name} (${item.category})`).join('\n');
-    
-    const subject = `Bulk Partnership Inquiry - ${inquiryList.length} Products - New Business`;
-    const body = `Dear Business Development Team,
 
-I am interested in establishing a partnership with Pearson Pharmaceutical (Est. 2024) and would like to inquire about bulk pricing and distribution opportunities.
+    if (!isValidEmail(email)) {
+        showNotification('Please enter a valid email address', 'error');
+        return;
+    }
+
+    if (!isValidPhone(phone)) {
+        showNotification('Please enter a valid phone number', 'error');
+        return;
+    }
+
+    const productList = inquiryList.map(item => `- ${item.name} (${item.category})`).join('\n');
+
+    const subject = `Portal Inquiry - ${inquiryList.length} Products`;
+    const body = `Dear Team,
+
+I would like to inquire for,
+
+Products of Interest:
+${productList}
 
 Customer Details:
 Name: ${name}
@@ -661,62 +618,202 @@ Email: ${email}
 Phone: ${phone}
 Company: ${company}
 
-Products of Interest:
-${productList}
-
-Partnership Interests:
-□ Bulk purchasing with competitive pricing
-□ Distribution rights for my region
-□ Long-term partnership with growing company
-□ Flexible terms for new business relationships
 
 Additional Message:
 ${message}
 
-As you are newly established, I believe there are mutual growth opportunities. Please provide detailed information about:
-- Competitive bulk pricing
-- Partnership terms and conditions
-- Distribution support
-- Business development opportunities
-
 Best regards,
 ${name}
+`;
 
-Pearson Pharmaceutical Contact:
-Business Development: bd@pearsonpharma.com
-General Inquiries: info@pearsonpharma.com
-Phone: +91 9876543210
-Address: Plot No. 45, Pharmaceutical Park, Phase-I, Vapi - 396191, Gujarat, India`;
-    
-    // Create mailto link for proper email functionality
-    const emailLink = `mailto:bd@pearsonpharma.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    
-    // Try to open email client
+    const recipient = (window.emailConfig && window.emailConfig.to) || 'mukeshnthummar@gmail.com';
+
+    // If an EmailJS-like config is provided, try to send directly from the client.
+    const cfg = window.emailConfig || {};
+
+    // Prefer SMTP.js when configured
+    if (cfg.method === 'smtpjs' && (cfg.secureToken || (cfg.username && cfg.password && cfg.host))) {
+        console.log('Sending inquiry via SMTP.js');
+        loadSMTPJSSDK(() => {
+            if (window.Email && typeof window.Email.send === 'function') {
+                const mailParams = {
+                    To: cfg.to || recipient,
+                    From: cfg.from || email,
+                    Subject: subject,
+                    Body: body
+                };
+
+                if (cfg.secureToken) mailParams.SecureToken = cfg.secureToken;
+                if (cfg.username) mailParams.Username = cfg.username;
+                if (cfg.password) mailParams.Password = cfg.password;
+                if (cfg.host) mailParams.Host = cfg.host;
+                if (cfg.Port) mailParams.Port = cfg.Port;
+
+                showNotification('Sending inquiry...', 'info');
+                window.Email.send(mailParams)
+                    .then(() => {
+                        showNotification('Inquiry sent successfully', 'success');
+                    })
+                    .catch(err => {
+                        console.error('SMTP send failed:', err);
+                        showNotification('Failed to send inquiry via SMTP. Opening email client as fallback.', 'error');
+                        openMailClientFallback(recipient, subject, body);
+                    });
+            } else {
+                openMailClientFallback(recipient, subject, body);
+            }
+        });
+
+        // Next, try EmailJS if configured (backwards compatibility)
+    } else if (cfg.serviceId && cfg.templateId) {
+        console.log('Sending inquiry via EmailJS SDK');
+        // Ensure SDK is loaded
+        loadEmailJSSDK(() => {
+            const params = {
+                to_email: recipient,
+                from_name: name,
+                from_email: email,
+                from_phone: phone,
+                company: company,
+                message: message,
+                product_list: productList,
+                subject: subject,
+                body: body
+            };
+
+            // emailjs (or similar) is expected to be available as `emailjs`
+            if (window.emailjs && typeof window.emailjs.send === 'function') {
+                showNotification('Sending inquiry...', 'info');
+                window.emailjs.send(cfg.serviceId, cfg.templateId, params, cfg.publicKey)
+                    .then(() => {
+                        showNotification('Inquiry sent successfully', 'success');
+                    })
+                    .catch(err => {
+                        console.error('Email send failed:', err);
+                        showNotification('Failed to send inquiry. Opening email client as fallback.', 'error');
+                        // fallback to mailto
+                        openMailClientFallback(recipient, subject, body);
+                    });
+            } else {
+                // SDK not available; fallback
+                openMailClientFallback(recipient, subject, body);
+            }
+        });
+    } else {
+        console.log('No email config; using mailto fallback');
+        // No direct-send config; open the user's email client with a prefilled recipient (mailto fallback)
+        openMailClientFallback(recipient, subject, body);
+    }
+
+    // Reset form and clear inquiries
+    const form = document.getElementById('bulkInquiryForm');
+    if (form) form.reset();
+
+    clearInquiries();
+    closeInquiryModal();
+}
+
+// Open mail client fallback helper
+function openMailClientFallback(recipient, subject, body) {
+    const emailLink = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     try {
         window.open(emailLink, '_blank');
         showNotification('Email client opened. Please send the inquiry.', 'success');
     } catch (error) {
-        // Fallback: show email content for copying
         showEmailPreview(subject, body, 'Bulk Partnership Inquiry');
     }
-    
-    // Reset form and clear inquiries
-    const form = document.getElementById('bulkInquiryForm');
-    if (form) form.reset();
-    
-    clearInquiries();
-    closeInquiryModal();
+}
+
+// Basic email validator
+function isValidEmail(email) {
+    if (!email) return false;
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+}
+
+// Basic phone validator: allow digits, spaces, +, -, (), min 7 digits
+function isValidPhone(phone) {
+    if (!phone) return false;
+    // Count digits
+    const digits = (phone.match(/\d/g) || []).length;
+    if (digits < 7) return false;
+    const re = /^[0-9+()\s-]{7,20}$/;
+    return re.test(phone);
+}
+
+// Dynamically load EmailJS SDK (only if needed). Calls callback when loaded or immediately if already present.
+function loadEmailJSSDK(callback) {
+    if (window.emailjs && typeof window.emailjs.send === 'function') {
+        callback();
+        return;
+    }
+    // If script already injected, poll until available
+    if (document.getElementById('emailjs-sdk')) {
+        const check = setInterval(() => {
+            if (window.emailjs && typeof window.emailjs.send === 'function') {
+                clearInterval(check);
+                callback();
+            }
+        }, 200);
+        return;
+    }
+
+    const script = document.createElement('script');
+    script.id = 'emailjs-sdk';
+    script.src = 'https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js';
+    script.onload = function () {
+        if (window.emailjs && window.emailConfig && window.emailConfig.publicKey) {
+            try { window.emailjs.init(window.emailConfig.publicKey); } catch (e) { }
+        }
+        callback();
+    };
+    script.onerror = function () {
+        console.warn('Failed to load EmailJS SDK');
+        callback();
+    };
+    document.head.appendChild(script);
+}
+
+// Dynamically load SMTP.js (smtpjs.com) helper. Calls callback when ready.
+function loadSMTPJSSDK(callback) {
+    if (window.Email && typeof window.Email.send === 'function') {
+        callback();
+        return;
+    }
+    if (document.getElementById('smtpjs-sdk')) {
+        const check = setInterval(() => {
+            if (window.Email && typeof window.Email.send === 'function') {
+                clearInterval(check);
+                callback();
+            }
+        }, 200);
+        return;
+    }
+
+    const script = document.createElement('script');
+    script.id = 'smtpjs-sdk';
+    // smtpjs official script
+    script.src = 'https://smtpjs.com/v3/smtp.js';
+    script.onload = function () {
+        // SMTP.js exposes `Email` global
+        callback();
+    };
+    script.onerror = function () {
+        console.warn('Failed to load SMTP.js SDK');
+        callback();
+    };
+    document.head.appendChild(script);
 }
 
 // Filter Functions
 function initializeProductFilters() {
     const filterButtons = document.querySelectorAll('.filter-btn');
-    
+
     filterButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             const category = this.getAttribute('data-category');
             filterProducts(category);
-            
+
             filterButtons.forEach(btn => btn.classList.remove('active'));
             this.classList.add('active');
         });
@@ -725,7 +822,7 @@ function initializeProductFilters() {
 
 function filterProducts(category) {
     const productCards = document.querySelectorAll('.product-card');
-    
+
     productCards.forEach(card => {
         if (category === 'all' || card.getAttribute('data-category') === category) {
             card.style.display = 'block';
@@ -742,10 +839,10 @@ function initializeForms() {
     if (contactForm) {
         contactForm.addEventListener('submit', handleContactForm);
     }
-    
+
     const bulkInquiryForm = document.getElementById('bulkInquiryForm');
     if (bulkInquiryForm) {
-        bulkInquiryForm.addEventListener('submit', function(e) {
+        bulkInquiryForm.addEventListener('submit', function (e) {
             e.preventDefault();
             sendBulkInquiry();
         });
@@ -754,19 +851,19 @@ function initializeForms() {
 
 function handleContactForm(e) {
     e.preventDefault();
-    
+
     const name = document.getElementById('contactName')?.value || '';
     const email = document.getElementById('contactEmail')?.value || '';
     const phone = document.getElementById('contactPhone')?.value || '';
     const company = document.getElementById('contactCompany')?.value || '';
     const inquiryType = document.getElementById('inquiryType')?.value || '';
     const message = document.getElementById('contactMessage')?.value || '';
-    
+
     if (!name || !email || !phone || !message) {
         showNotification('Please fill in all required fields', 'error');
         return;
     }
-    
+
     const subject = `Partnership Inquiry - ${inquiryType} - ${name}`;
     const body = `Dear Business Development Team,
 
@@ -788,17 +885,11 @@ Looking forward to growing together with Pearson Pharmaceutical.
 
 Best regards,
 ${name}
+`;
 
-Pearson Pharmaceutical Contact:
-Business Development: bd@pearsonpharma.com
-General Inquiries: info@pearsonpharma.com
-Phone: +91 9876543210
-Address: Plot No. 45, Pharmaceutical Park, Phase-I, Vapi - 396191, Gujarat, India
-Established: 2024 - "Newly Established - Growing Together"`;
-    
     // Create mailto link for proper email functionality
     const emailLink = `mailto:info@pearsonpharma.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    
+
     // Try to open email client
     try {
         window.open(emailLink, '_blank');
@@ -817,7 +908,7 @@ function showEmailPreview(subject, content, type) {
     const modal = document.createElement('div');
     modal.className = 'modal';
     modal.style.zIndex = '3000';
-    
+
     modal.innerHTML = `
         <div class="modal-content" style="max-width: 600px;">
             <div class="modal-header">
@@ -837,9 +928,9 @@ function showEmailPreview(subject, content, type) {
             </div>
         </div>
     `;
-    
+
     document.body.appendChild(modal);
-    
+
     // Auto remove after 10 seconds
     setTimeout(() => {
         if (modal.parentNode) {
@@ -866,7 +957,7 @@ function copyToClipboard(text) {
 function showNotification(message, type = 'info') {
     // Remove existing notifications
     document.querySelectorAll('.notification').forEach(n => n.remove());
-    
+
     const notification = document.createElement('div');
     notification.classList.add('notification', `notification--${type}`);
     notification.style.cssText = `
@@ -885,7 +976,7 @@ function showNotification(message, type = 'info') {
         transform: translateX(100%);
         transition: transform 0.3s ease-in-out;
     `;
-    
+
     if (type === 'success') {
         notification.style.borderColor = 'var(--color-success)';
         notification.style.color = 'var(--color-success)';
@@ -896,15 +987,15 @@ function showNotification(message, type = 'info') {
         notification.style.borderColor = 'var(--color-warning)';
         notification.style.color = 'var(--color-warning)';
     }
-    
+
     notification.textContent = message;
     document.body.appendChild(notification);
-    
+
     // Animate in
     setTimeout(() => {
         notification.style.transform = 'translateX(0)';
     }, 100);
-    
+
     // Remove after delay
     setTimeout(() => {
         notification.style.transform = 'translateX(100%)';
@@ -927,7 +1018,7 @@ function hideLoading() {
 }
 
 // Event Listeners for modal clicks
-document.addEventListener('click', function(e) {
+document.addEventListener('click', function (e) {
     if (e.target.classList.contains('modal')) {
         if (e.target.id === 'productModal') {
             closeProductModal();
@@ -938,18 +1029,18 @@ document.addEventListener('click', function(e) {
 });
 
 // Keyboard navigation
-document.addEventListener('keydown', function(e) {
+document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') {
         const productModal = document.getElementById('productModal');
         const inquiryModal = document.getElementById('inquiryModal');
-        
+
         if (productModal && !productModal.classList.contains('hidden')) {
             closeProductModal();
         } else if (inquiryModal && !inquiryModal.classList.contains('hidden')) {
             closeInquiryModal();
         }
     }
-    
+
     // Arrow key navigation for sliders
     if (e.key === 'ArrowLeft') {
         const productModal = document.getElementById('productModal');
@@ -969,12 +1060,7 @@ document.addEventListener('keydown', function(e) {
 });
 
 // Error handling
-window.addEventListener('error', function(e) {
+window.addEventListener('error', function (e) {
     console.error('Application error:', e.error);
     showNotification('An error occurred. Please refresh the page if issues persist.', 'error');
-});
-
-// Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM Content Loaded - Initializing application');
 });

@@ -1,0 +1,122 @@
+const products = [
+  {
+    id: "001",
+    name: "Pearflam-SP",
+    subtitle: "Accelofenac, Serratiopeptidase & Paracetamol Tablets",
+    composition: "Each tablet contains Accelofenac 100mg, Serratiopeptidase 15mg, and Paracetamol 500mg",
+    indications: "For the treatment of pain and inflammation in conditions like rheumatoid arthritis, osteoarthritis, ankylosing spondylitis, dental pain, and post-operative inflammation",
+    dosage: "As directed by the physician. Usually 1 tablet twice daily after meals",
+    packaging: "10 strips of 10 tablets each, Aluminium Foil",
+    category: "Pain Relief",
+    description: "Triple action formula for effective pain and inflammation management",
+    image_folder: "pearflam"
+  },
+  {
+    id: "002",
+    name: "Limson-LC",
+    subtitle: "Levocetirizine & Montelukast Tablets",
+    composition: "Levocetirizine 5mg + Montelukast 10mg",
+    indications: "Allergic rhinitis, hay fever, and chronic urticaria",
+    dosage: "As prescribed by the physician. Usually once daily at night",
+    packaging: "10 strips of 10 tablets each",
+    category: "Allergy Care",
+    description: "Dual action allergy relief for respiratory conditions",
+    image_folder: "limson"
+  },
+  {
+    id: "003",
+    name: "Oflar-OZ",
+    subtitle: "Ofloxacin & Ornidazole Tablets",
+    composition: "Ofloxacin 200mg + Ornidazole 500mg",
+    indications: "Acute diarrhea, dysentery, and other gastrointestinal infections",
+    dosage: "As directed by the physician. Typically twice daily",
+    packaging: "10 strips of 10 tablets each",
+    category: "Antibiotic",
+    description: "Broad spectrum antibiotic with anti-protozoal action",
+    image_folder: "Oflar"
+  },
+  {
+    id: "004",
+    name: "PearCEF 200 DT",
+    subtitle: "Cefixime Dispersible Tablets 200mg",
+    composition: "Each dispersible tablet contains Cefixime 200mg",
+    indications: "Used for respiratory tract infections, urinary tract infections, and otitis media",
+    dosage: "As advised by the physician",
+    packaging: "10 strips of 10 dispersible tablets",
+    category: "Antibiotic",
+    description: "Third generation cephalosporin antibiotic in dispersible form",
+    image_folder: "pearcef"
+  },
+  {
+    id: "005",
+    name: "Bitson-B12",
+    subtitle: "Methylcobalamin, Niacinamide & Pyridoxine Injection",
+    composition: "Each ampoule contains Methylcobalamin 1500mcg, Niacinamide 100mg, Pyridoxine HCl 100mg",
+    indications: "Used in the treatment of peripheral neuropathy, vitamin B12 deficiency, and general weakness",
+    dosage: "As prescribed by the physician",
+    packaging: "1ml ampoule, box of 5 ampoules",
+    category: "Injectable",
+    description: "Advanced neurotropic supplement for nerve health",
+    image_folder: "bitson"
+  },
+  {
+    id: "006",
+    name: "Clavson-CV 625",
+    subtitle: "Amoxicillin & Potassium Clavulanate Tablets IP",
+    composition: "Amoxicillin 500mg + Clavulanic Acid 125mg",
+    indications: "Effective in respiratory tract infections, sinusitis, urinary tract infections, skin infections, and dental infections",
+    dosage: "As directed by the physician. Usually 1 tablet every 8 or 12 hours",
+    packaging: "10 strips of 10 tablets each",
+    category: "Antibiotic",
+    description: "Beta-lactam antibiotic with beta-lactamase inhibitor",
+    image_folder: "clavson"
+  },
+  {
+    id: "007",
+    name: "RSON-DSR",
+    subtitle: "Rabeprazole Sodium (EC) & Domperidone (SR) Capsules",
+    composition: "Rabeprazole Sodium 20mg (enteric coated) + Domperidone 30mg (sustained release)",
+    indications: "GERD, acid reflux, and other gastric disorders",
+    dosage: "One capsule daily before meal or as directed by physician",
+    packaging: "10 strips of 10 capsules",
+    category: "Gastro Care",
+    description: "Proton pump inhibitor with prokinetic agent",
+    image_folder: "rson"
+  },
+  {
+    id: "008",
+    name: "Qcold-X",
+    subtitle: "Terbutaline, Guaiphenesin, Ambroxol HCL & Menthol Syrup",
+    composition: "Terbutaline 1.25mg, Guaiphenesin 50mg, Ambroxol HCL 15mg, Menthol 2.5mg per 5ml",
+    indications: "Relief from productive cough, congestion, and bronchospasm",
+    dosage: "5ml 2–3 times daily or as prescribed",
+    packaging: "100ml bottle with measuring cap, Mix Fruit flavour",
+    category: "Syrup",
+    description: "Multi-action syrup for productive cough relief",
+    image_folder: "qcoldx"
+  },
+  {
+    id: "009",
+    name: "Qcold-Dx",
+    subtitle: "Dextromethorphan, Phenylephrine HCL & Chlorpheniramine Maleate Syrup",
+    composition: "Dextromethorphan 10mg, Phenylephrine 5mg, Chlorpheniramine Maleate 2mg per 5ml",
+    indications: "Dry cough, cold, nasal congestion, and allergic symptoms",
+    dosage: "5ml 2–3 times daily or as directed",
+    packaging: "100ml bottle with measuring cap, Strawberry flavour",
+    category: "Syrup",
+    description: "Effective dry cough suppressant with decongestant",
+    image_folder: "qcolddx"
+  },
+  {
+    id: "010",
+    name: "Cefvit 1gm",
+    subtitle: "Ceftriaxone Injection IP",
+    composition: "Each vial contains Ceftriaxone Sodium equivalent to Ceftriaxone 1gm",
+    indications: "Bacterial infections including respiratory tract, urinary tract, skin, soft tissue, and gynecological infections",
+    dosage: "As directed by the physician. Administered IM/IV",
+    packaging: "Vial with sterile water for injection",
+    category: "Injectable",
+    description: "Third generation cephalosporin for severe infections",
+    image_folder: "cefvit"
+  }
+];

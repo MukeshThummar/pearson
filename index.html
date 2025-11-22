@@ -53,41 +53,7 @@
         <section id="home" class="section home-section">
             <!-- Hero Slider -->
             <div class="hero-slider" id="heroSlider">
-                <div class="hero-slide active">
-                    <img src="images/home/1.png" alt="Pearson Pharmaceutical Facility">
-                    <div class="hero-content">
-                        <h1>New in Market - Fresh Perspectives</h1>
-                        <p>Established 2024 - Bringing innovation and competitive pricing to pharmaceutical industry</p>
-                    </div>
-                </div>
-                <div class="hero-slide">
-                    <img src="images/home/2.png" alt="Quality Manufacturing">
-                    <div class="hero-content">
-                        <h1>Quality From Day One</h1>
-                        <p>New company with established quality standards and regulatory compliance</p>
-                    </div>
-                </div>
-                <div class="hero-slide">
-                    <img src="images/home/3.png" alt="Product Development">
-                    <div class="hero-content">
-                        <h1>Growing Together</h1>
-                        <p>Seeking partnerships with distributors and healthcare professionals nationwide</p>
-                    </div>
-                </div>
-                <div class="hero-slide">
-                    <img src="images/home/4.png" alt="New Market Entry">
-                    <div class="hero-content">
-                        <h1>Competitive Advantage</h1>
-                        <p>Fresh market entry with competitive pricing and flexible business terms</p>
-                    </div>
-                </div>
-                <div class="hero-slide">
-                    <img src="images/home/5.png" alt="New B2B Partner">
-                    <div class="hero-content">
-                        <h1>Your New Partner</h1>
-                        <p>Building relationships with healthcare professionals since 2024</p>
-                    </div>
-                </div>
+                <!-- Slides will be rendered dynamically from `data/home_slide.js` -->
             </div>
 
             <!-- Hero Navigation -->
@@ -245,7 +211,7 @@
     <div id="inquiryModal" class="modal hidden">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Bulk Inquiry</h3>
+                <h3>Inquiry</h3>
                 <button class="modal-close" onclick="closeInquiryModal()">&times;</button>
             </div>
             <div class="modal-body">
@@ -318,7 +284,8 @@
         <div class="loading-spinner"></div>
         <p>Processing your request...</p>
     </div>
-
+    <script src="data/products.js"></script>
+    <script src="data/home_slide.js"></script>
     <script src="js/app.js"></script>
 </body>
 
