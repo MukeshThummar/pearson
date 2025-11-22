@@ -148,19 +148,63 @@ function initializeHeroSlider() {
 
     if (!slider || !dotsContainer) return;
 
-    // Use the in-page `homeSlide` data (loaded via `data/home_slide.js`).
-    // `data/home_slide.js` should define `window.homeSlide` as an array of slide objects.
-    const slidesSource = window.homeSlide;
-    if (Array.isArray(slidesSource) && slidesSource.length > 0) {
-        renderHeroSlides(slidesSource, slider, dotsContainer);
-        return;
+    // Dynamically resolve hero images from appsettings.imagePathHomeSlide
+    // Try to find images in the folder (1.jpg/png, 2.jpg/png, ... main.jpg/png)
+    const homeImagePath = (appsettings && appsettings.imagePathHomeSlide);
+    const maxCount = 10;
+    const candidates = [];
+    for (let i = 1; i <= maxCount; i++) {
+        candidates.push(`${homeImagePath}${i}.jpg`);
+        candidates.push(`${homeImagePath}${i}.png`);
     }
+    candidates.push(`${homeImagePath}main.jpg`);
+    candidates.push(`${homeImagePath}main.png`);
 
-    // No slide data available — fall back to static DOM slides if present
-    const staticSlides = document.querySelectorAll('.hero-slide');
-    if (!staticSlides || staticSlides.length === 0) return;
+    const results = [];
+    let remaining = candidates.length;
+    if (remaining === 0) return;
+    candidates.forEach(src => {
+        const img = new Image();
+        img.onload = function () {
+            results.push(src);
+            checkDone();
+        };
+        img.onerror = function () {
+            checkDone();
+        };
+        img.src = src;
+    });
+
+    function checkDone() {
+        remaining--;
+        if (remaining <= 0) {
+            const unique = Array.from(new Set(results));
+            // Prefer any 'main' image by moving it to the front
+            const mainIdx = unique.findIndex(u => /main\.(jpg|png)$/i.test(u));
+            if (mainIdx > 0) {
+                const [main] = unique.splice(mainIdx, 1);
+                unique.unshift(main);
+            }
+            renderHomeSlidesFromImages(unique, slider, dotsContainer);
+        }
+    }
+}
+
+// Helper to render hero slides from resolved images
+function renderHomeSlidesFromImages(images, slider, dotsContainer) {
+    slider.innerHTML = '';
+    images.forEach((src, index) => {
+        const slide = document.createElement('div');
+        slide.classList.add('hero-slide');
+        if (index === 0) slide.classList.add('active');
+        slide.innerHTML = `
+            <img src="${src}" alt="Hero Slide ${index + 1}">
+        `;
+        slider.appendChild(slide);
+    });
+    // Create dots
     dotsContainer.innerHTML = '';
-    staticSlides.forEach((_, index) => {
+    images.forEach((_, index) => {
         const dot = document.createElement('div');
         dot.classList.add('hero-dot');
         if (index === 0) dot.classList.add('active');
