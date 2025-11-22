@@ -118,5 +118,17 @@ const products = [
     category: "Injectable",
     description: "Third generation cephalosporin for severe infections",
     image_folder: "cefvit"
+  },
+  {
+    id: "011",
+    name: "Cefpod-200",
+    subtitle: "Cefpodoxime Proxetil Dispersible Tablets",
+    composition: "Cefpodoxime Proxetil IP equivalent to Cefpodoxime 200 mg, Excipients q.s., Colour: Sunset Yellow FCF",
+    indications: "Used in the treatment of various bacterial infections, including respiratory tract infections, urinary tract infections, and skin infections",
+    dosage: "As directed by the physician",
+    packaging: "10 strips of 10 tablets each",
+    category: "Antibiotic",
+    description: "Broad-spectrum cephalosporin antibiotic effective against a wide range of bacterial infections",
+    image_folder: "cefpod"
   }
 ];
