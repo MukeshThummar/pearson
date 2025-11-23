@@ -1771,6 +1771,23 @@ select.form-control {
   }
 }
 
+/* Phone link: enable on mobile, disabled on desktop */
+.phone-link {
+  color: inherit;
+  text-decoration: none;
+  pointer-events: none; /* disabled by default (desktop) */
+  cursor: default;
+}
+
+@media (max-width: 768px) {
+  .phone-link {
+    pointer-events: auto; /* enable on mobile */
+    cursor: pointer;
+    text-decoration: underline;
+    color: var(--color-primary);
+  }
+}
+
 /* Animation Classes */
 .fade-in {
   animation: fadeIn var(--duration-normal) var(--ease-standard);

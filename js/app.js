@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function initializeApp() {
     loadProductData();
-    initializeHeroSlider();
+    initializeHomeSlider();
     initializeNavigation();
     initializeForms();
     initializeProductFilters();
@@ -142,14 +142,12 @@ function navigateToContact() {
 }
 
 // Hero Slider Functions
-function initializeHeroSlider() {
+function initializeHomeSlider() {
     const slider = document.getElementById('heroSlider');
     const dotsContainer = document.getElementById('heroDots');
 
     if (!slider || !dotsContainer) return;
 
-    // Dynamically resolve hero images from appsettings.imagePathHomeSlide
-    // Try to find images in the folder (1.jpg/png, 2.jpg/png, ... main.jpg/png)
     const homeImagePath = (appsettings && appsettings.imagePathHomeSlide);
     const maxCount = 10;
     const candidates = [];
@@ -618,155 +616,14 @@ function clearInquiries() {
 }
 
 // Send Bulk Inquiry Functions
-function sendBulkInquiry() {
-    if (inquiryList.length === 0) {
-        showNotification('Please add products to inquiry list first', 'warning');
-        return;
-    }
-
-    const name = document.getElementById('inquiryName')?.value || '';
-    const email = document.getElementById('inquiryEmail')?.value || '';
-    const phone = document.getElementById('inquiryPhone')?.value || '';
-    const company = document.getElementById('inquiryCompany')?.value || '';
-    const message = document.getElementById('inquiryMessage')?.value || '';
-
-    // Basic validation
-    if (!name || !email || !phone) {
-        showNotification('Please fill in all required fields', 'error');
-        return;
-    }
-
-    if (!isValidEmail(email)) {
-        showNotification('Please enter a valid email address', 'error');
-        return;
-    }
-
-    if (!isValidPhone(phone)) {
-        showNotification('Please enter a valid phone number', 'error');
-        return;
-    }
-
-    const productList = inquiryList.map(item => `- ${item.name} (${item.category})`).join('\n');
-
-    const subject = `Portal Inquiry - ${inquiryList.length} Products`;
-    const body = `Dear Team,
-
-I would like to inquire for,
-
-Products of Interest:
-${productList}
-
-Customer Details:
-Name: ${name}
-Email: ${email}
-Phone: ${phone}
-Company: ${company}
-
-
-Additional Message:
-${message}
-
-Best regards,
-${name}
-`;
-
-    const recipient = (window.emailConfig && window.emailConfig.to) || 'mukeshnthummar@gmail.com';
-
-    // If an EmailJS-like config is provided, try to send directly from the client.
-    const cfg = window.emailConfig || {};
-
-    // Prefer SMTP.js when configured
-    if (cfg.method === 'smtpjs' && (cfg.secureToken || (cfg.username && cfg.password && cfg.host))) {
-        console.log('Sending inquiry via SMTP.js');
-        loadSMTPJSSDK(() => {
-            if (window.Email && typeof window.Email.send === 'function') {
-                const mailParams = {
-                    To: cfg.to || recipient,
-                    From: cfg.from || email,
-                    Subject: subject,
-                    Body: body
-                };
-
-                if (cfg.secureToken) mailParams.SecureToken = cfg.secureToken;
-                if (cfg.username) mailParams.Username = cfg.username;
-                if (cfg.password) mailParams.Password = cfg.password;
-                if (cfg.host) mailParams.Host = cfg.host;
-                if (cfg.Port) mailParams.Port = cfg.Port;
-
-                showNotification('Sending inquiry...', 'info');
-                window.Email.send(mailParams)
-                    .then(() => {
-                        showNotification('Inquiry sent successfully', 'success');
-                    })
-                    .catch(err => {
-                        console.error('SMTP send failed:', err);
-                        showNotification('Failed to send inquiry via SMTP. Opening email client as fallback.', 'error');
-                        openMailClientFallback(recipient, subject, body);
-                    });
-            } else {
-                openMailClientFallback(recipient, subject, body);
-            }
-        });
-
-        // Next, try EmailJS if configured (backwards compatibility)
-    } else if (cfg.serviceId && cfg.templateId) {
-        console.log('Sending inquiry via EmailJS SDK');
-        // Ensure SDK is loaded
-        loadEmailJSSDK(() => {
-            const params = {
-                to_email: recipient,
-                from_name: name,
-                from_email: email,
-                from_phone: phone,
-                company: company,
-                message: message,
-                product_list: productList,
-                subject: subject,
-                body: body
-            };
-
-            // emailjs (or similar) is expected to be available as `emailjs`
-            if (window.emailjs && typeof window.emailjs.send === 'function') {
-                showNotification('Sending inquiry...', 'info');
-                window.emailjs.send(cfg.serviceId, cfg.templateId, params, cfg.publicKey)
-                    .then(() => {
-                        showNotification('Inquiry sent successfully', 'success');
-                    })
-                    .catch(err => {
-                        console.error('Email send failed:', err);
-                        showNotification('Failed to send inquiry. Opening email client as fallback.', 'error');
-                        // fallback to mailto
-                        openMailClientFallback(recipient, subject, body);
-                    });
-            } else {
-                // SDK not available; fallback
-                openMailClientFallback(recipient, subject, body);
-            }
-        });
-    } else {
-        console.log('No email config; using mailto fallback');
-        // No direct-send config; open the user's email client with a prefilled recipient (mailto fallback)
-        openMailClientFallback(recipient, subject, body);
-    }
-
-    // Reset form and clear inquiries
-    const form = document.getElementById('bulkInquiryForm');
+function sendInquiry() {
+    // Email sending has been disabled. Show placeholder message instead.
+    showNotification('Under Construction', 'info');
+    const form = document.getElementById('InquiryForm');
     if (form) form.reset();
-
-    clearInquiries();
     closeInquiryModal();
 }
 
-// Open mail client fallback helper
-function openMailClientFallback(recipient, subject, body) {
-    const emailLink = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    try {
-        window.open(emailLink, '_blank');
-        showNotification('Email client opened. Please send the inquiry.', 'success');
-    } catch (error) {
-        showEmailPreview(subject, body, 'Bulk Partnership Inquiry');
-    }
-}
 
 // Basic email validator
 function isValidEmail(email) {
@@ -785,69 +642,6 @@ function isValidPhone(phone) {
     return re.test(phone);
 }
 
-// Dynamically load EmailJS SDK (only if needed). Calls callback when loaded or immediately if already present.
-function loadEmailJSSDK(callback) {
-    if (window.emailjs && typeof window.emailjs.send === 'function') {
-        callback();
-        return;
-    }
-    // If script already injected, poll until available
-    if (document.getElementById('emailjs-sdk')) {
-        const check = setInterval(() => {
-            if (window.emailjs && typeof window.emailjs.send === 'function') {
-                clearInterval(check);
-                callback();
-            }
-        }, 200);
-        return;
-    }
-
-    const script = document.createElement('script');
-    script.id = 'emailjs-sdk';
-    script.src = 'https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js';
-    script.onload = function () {
-        if (window.emailjs && window.emailConfig && window.emailConfig.publicKey) {
-            try { window.emailjs.init(window.emailConfig.publicKey); } catch (e) { }
-        }
-        callback();
-    };
-    script.onerror = function () {
-        console.warn('Failed to load EmailJS SDK');
-        callback();
-    };
-    document.head.appendChild(script);
-}
-
-// Dynamically load SMTP.js (smtpjs.com) helper. Calls callback when ready.
-function loadSMTPJSSDK(callback) {
-    if (window.Email && typeof window.Email.send === 'function') {
-        callback();
-        return;
-    }
-    if (document.getElementById('smtpjs-sdk')) {
-        const check = setInterval(() => {
-            if (window.Email && typeof window.Email.send === 'function') {
-                clearInterval(check);
-                callback();
-            }
-        }, 200);
-        return;
-    }
-
-    const script = document.createElement('script');
-    script.id = 'smtpjs-sdk';
-    // smtpjs official script
-    script.src = 'https://smtpjs.com/v3/smtp.js';
-    script.onload = function () {
-        // SMTP.js exposes `Email` global
-        callback();
-    };
-    script.onerror = function () {
-        console.warn('Failed to load SMTP.js SDK');
-        callback();
-    };
-    document.head.appendChild(script);
-}
 
 // Filter Functions
 function initializeProductFilters() {
@@ -884,18 +678,17 @@ function initializeForms() {
         contactForm.addEventListener('submit', handleContactForm);
     }
 
-    const bulkInquiryForm = document.getElementById('bulkInquiryForm');
-    if (bulkInquiryForm) {
-        bulkInquiryForm.addEventListener('submit', function (e) {
+    const InquiryForm = document.getElementById('InquiryForm');
+    if (InquiryForm) {
+        InquiryForm.addEventListener('submit', function (e) {
             e.preventDefault();
-            sendBulkInquiry();
+            sendInquiry();
         });
     }
 }
 
 function handleContactForm(e) {
     e.preventDefault();
-
     const name = document.getElementById('contactName')?.value || '';
     const email = document.getElementById('contactEmail')?.value || '';
     const phone = document.getElementById('contactPhone')?.value || '';
@@ -908,79 +701,15 @@ function handleContactForm(e) {
         return;
     }
 
-    const subject = `Partnership Inquiry - ${inquiryType} - ${name}`;
-    const body = `Dear Business Development Team,
-
-I am interested in connecting with Pearson Pharmaceutical (Est. 2024) regarding new business opportunities.
-
-Customer Details:
-Name: ${name}
-Email: ${email}
-Phone: ${phone}
-Company: ${company}
-Inquiry Type: ${inquiryType}
-
-Message:
-${message}
-
-As a newly established company, I believe there are excellent opportunities for mutual growth. Please contact me to discuss potential partnerships, distribution opportunities, or business collaboration.
-
-Looking forward to growing together with Pearson Pharmaceutical.
-
-Best regards,
-${name}
-`;
-
-    // Create mailto link for proper email functionality
-    const emailLink = `mailto:info@pearsonpharma.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-    // Try to open email client
-    try {
-        window.open(emailLink, '_blank');
-        showNotification('Email client opened. Please send the inquiry.', 'success');
-        e.target.reset();
-    } catch (error) {
-        // Fallback: show email content for copying
-        showEmailPreview(subject, body, 'Partnership Contact Inquiry');
-        e.target.reset();
-    }
+    showNotification('Under Construction', 'info');
+    const form = document.getElementById('contactForm');
+    if (form) form.reset();
 }
 
 // Email Functions
 function showEmailPreview(subject, content, type) {
-    // Create modal for email preview
-    const modal = document.createElement('div');
-    modal.className = 'modal';
-    modal.style.zIndex = '3000';
-
-    modal.innerHTML = `
-        <div class="modal-content" style="max-width: 600px;">
-            <div class="modal-header">
-                <h3>Email Preview - ${type}</h3>
-                <button class="modal-close" onclick="this.closest('.modal').remove();">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p><strong>To:</strong> info@pearsonpharma.com</p>
-                <p><strong>Subject:</strong> ${subject}</p>
-                <hr>
-                <div style="white-space: pre-wrap; font-family: monospace; background: var(--color-bg-1); padding: 1rem; border-radius: var(--radius-base);">${content}</div>
-                <div style="margin-top: 1rem;">
-                    <button class="btn btn--primary" onclick="copyToClipboard('${content.replace(/'/g, "\\'")}'); showNotification('Email content copied to clipboard', 'success');">
-                        Copy Content
-                    </button>
-                </div>
-            </div>
-        </div>
-    `;
-
-    document.body.appendChild(modal);
-
-    // Auto remove after 10 seconds
-    setTimeout(() => {
-        if (modal.parentNode) {
-            modal.remove();
-        }
-    }, 10000);
+    // Email preview is disabled. Show placeholder notification instead.
+    showNotification('Under Construction', 'info');
 }
 
 function copyToClipboard(text) {
@@ -1071,6 +800,42 @@ document.addEventListener('click', function (e) {
         }
     }
 });
+
+// Phone link behavior: keep aria-disabled in sync and prevent accidental clicks on desktop
+function debounce(fn, wait) {
+    let t;
+    return function () {
+        clearTimeout(t);
+        t = setTimeout(() => fn.apply(this, arguments), wait);
+    };
+}
+
+function updatePhoneLinkState() {
+    const link = document.querySelector('.phone-link');
+    if (!link) return;
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    if (isMobile) {
+        link.removeAttribute('aria-disabled');
+    } else {
+        link.setAttribute('aria-disabled', 'true');
+    }
+}
+
+// Prevent click on phone link when aria-disabled is true
+document.addEventListener('click', function (e) {
+    const link = e.target.closest && e.target.closest('.phone-link');
+    if (!link) return;
+    if (link.getAttribute('aria-disabled') === 'true') {
+        e.preventDefault();
+        // Optionally show a small notification only on desktop
+        if (typeof showNotification === 'function') {
+            showNotification('Tap the phone number on a mobile device to call.', 'info');
+        }
+    }
+});
+
+window.addEventListener('resize', debounce(updatePhoneLinkState, 150));
+document.addEventListener('DOMContentLoaded', updatePhoneLinkState);
 
 // Keyboard navigation
 document.addEventListener('keydown', function (e) {

@@ -218,7 +218,7 @@
                 <div id="inquiryList" class="inquiry-list">
                     <!-- Inquiry items will be loaded here -->
                 </div>
-                <form class="inquiry-form" id="bulkInquiryForm">
+                <form class="inquiry-form" id="InquiryForm">
                     <div class="form-group">
                         <label for="inquiryName" class="form-label">Full Name *</label>
                         <input type="text" id="inquiryName" class="form-control" required>
@@ -243,7 +243,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn--secondary" onclick="clearInquiries()">Clear All</button>
-                <button class="btn btn--primary" onclick="sendBulkInquiry()">Send Inquiry</button>
+                <button class="btn btn--primary" onclick="sendInquiry()">Send Inquiry</button>
             </div>
         </div>
     </div>
@@ -263,7 +263,7 @@
                 <div class="footer-section">
                     <h4>Contact Info</h4>
                     <p><i class="fas fa-map-marker-alt"></i> 227 Apple Square, Surat - 395010, Gujarat, India</p>
-                    <p><i class="fas fa-phone"></i> +91 95122 57160</p>
+                    <p><i class="fas fa-phone"></i> <a href="tel:+919512257160" class="phone-link" aria-disabled="true">+91 95122 57160</a></p>
                     <p><i class="fas fa-envelope"></i> pearsonpharmaceutical@gmail.com</p>
                 </div>
                 <div class="footer-section">
