@@ -141,10 +141,10 @@ function navigateToContact() {
     navigateToSection('contact');
 }
 
-// Hero Slider Functions
+// Home Slider Functions
 function initializeHomeSlider() {
-    const slider = document.getElementById('heroSlider');
-    const dotsContainer = document.getElementById('heroDots');
+    const slider = document.getElementById('homeSlider');
+    const dotsContainer = document.getElementById('homeDots');
 
     if (!slider || !dotsContainer) return;
 
@@ -188,15 +188,15 @@ function initializeHomeSlider() {
     }
 }
 
-// Helper to render hero slides from resolved images
+// Helper to render Home slides from resolved images
 function renderHomeSlidesFromImages(images, slider, dotsContainer) {
     slider.innerHTML = '';
     images.forEach((src, index) => {
         const slide = document.createElement('div');
-        slide.classList.add('hero-slide');
+        slide.classList.add('home-slide');
         if (index === 0) slide.classList.add('active');
         slide.innerHTML = `
-            <img src="${src}" alt="Hero Slide ${index + 1}">
+            <img src="${src}" alt="Slide ${index + 1}">
         `;
         slider.appendChild(slide);
     });
@@ -204,7 +204,7 @@ function renderHomeSlidesFromImages(images, slider, dotsContainer) {
     dotsContainer.innerHTML = '';
     images.forEach((_, index) => {
         const dot = document.createElement('div');
-        dot.classList.add('hero-dot');
+        dot.classList.add('home-dot');
         if (index === 0) dot.classList.add('active');
         dot.addEventListener('click', () => goToSlide(index));
         dotsContainer.appendChild(dot);
@@ -212,16 +212,16 @@ function renderHomeSlidesFromImages(images, slider, dotsContainer) {
     setInterval(nextSlide, 5000);
 }
 
-// Helper to render hero slides and dots
-function renderHeroSlides(slides, slider, dotsContainer) {
+// Helper to render home slides and dots
+function renderHomeSlides(slides, slider, dotsContainer) {
     slider.innerHTML = '';
     slides.forEach((s, index) => {
         const slide = document.createElement('div');
-        slide.classList.add('hero-slide');
+        slide.classList.add('home-slide');
         if (index === 0) slide.classList.add('active');
         slide.innerHTML = `
             <img src="${s.image}" alt="${s.title}">
-            <div class="hero-content">
+            <div class="home-content">
                 <h1>${s.title}</h1>
                 <p>${s.subtitle}</p>
             </div>
@@ -233,7 +233,7 @@ function renderHeroSlides(slides, slider, dotsContainer) {
     dotsContainer.innerHTML = '';
     slides.forEach((_, index) => {
         const dot = document.createElement('div');
-        dot.classList.add('hero-dot');
+        dot.classList.add('home-dot');
         if (index === 0) dot.classList.add('active');
         dot.addEventListener('click', () => goToSlide(index));
         dotsContainer.appendChild(dot);
@@ -244,8 +244,8 @@ function renderHeroSlides(slides, slider, dotsContainer) {
 }
 
 function goToSlide(index) {
-    const slides = document.querySelectorAll('.hero-slide');
-    const dots = document.querySelectorAll('.hero-dot');
+    const slides = document.querySelectorAll('.home-slide');
+    const dots = document.querySelectorAll('.home-dot');
     
     slides.forEach(slide => slide.classList.remove('active'));
     dots.forEach(dot => dot.classList.remove('active'));
@@ -257,7 +257,7 @@ function goToSlide(index) {
 }
 
 function nextSlide() {
-    const slides = document.querySelectorAll('.hero-slide');
+    const slides = document.querySelectorAll('.home-slide');
     if (slides.length === 0) return;
     
     currentSlide = (currentSlide + 1) % slides.length;
@@ -265,7 +265,7 @@ function nextSlide() {
 }
 
 function previousSlide() {
-    const slides = document.querySelectorAll('.hero-slide');
+    const slides = document.querySelectorAll('.home-slide');
     if (slides.length === 0) return;
     
     currentSlide = (currentSlide - 1 + slides.length) % slides.length;
