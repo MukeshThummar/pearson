@@ -1733,15 +1733,6 @@ select.form-control {
   margin-bottom: var(--space-8);
 }
 
-.footer-section a {
-  color: var(--color-text-secondary);
-  transition: color var(--duration-fast) var(--ease-standard);
-}
-
-.footer-section a:hover {
-  color: var(--color-primary);
-}
-
 .footer-bottom {
   text-align: center;
   padding-top: var(--space-24);
@@ -1908,7 +1899,7 @@ select.form-control {
 }
 
 /* Phone link: enable on mobile, disabled on desktop */
-.phone-link {
+.phone-link, .email-link {
   color: inherit;
   text-decoration: none;
   pointer-events: none;
@@ -1917,11 +1908,11 @@ select.form-control {
 }
 
 @media (max-width: 768px) {
-  .phone-link {
+  .phone-link, .email-link {
     pointer-events: auto;
     /* enable on mobile */
     cursor: pointer;
-    text-decoration: underline;
+    text-decoration: none;
     color: var(--color-primary);
   }
 }

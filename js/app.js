@@ -836,32 +836,39 @@ function debounce(fn, wait) {
     };
 }
 
-function updatePhoneLinkState() {
-    const link = document.querySelector('.phone-link');
-    if (!link) return;
+function updateContactLinkState() {
+    const links = document.querySelectorAll('.phone-link, .email-link');
+    if (!links || links.length === 0) return;
     const isMobile = window.matchMedia('(max-width: 768px)').matches;
-    if (isMobile) {
-        link.removeAttribute('aria-disabled');
-    } else {
-        link.setAttribute('aria-disabled', 'true');
-    }
+    links.forEach(link => {
+        if (isMobile) {
+            link.removeAttribute('aria-disabled');
+        } else {
+            link.setAttribute('aria-disabled', 'true');
+        }
+    });
 }
 
-// Prevent click on phone link when aria-disabled is true
+// Prevent click on contact links when aria-disabled is true
 document.addEventListener('click', function (e) {
-    const link = e.target.closest && e.target.closest('.phone-link');
+    const link = e.target.closest && e.target.closest('.phone-link, .email-link');
     if (!link) return;
     if (link.getAttribute('aria-disabled') === 'true') {
         e.preventDefault();
-        // Optionally show a small notification only on desktop
         if (typeof showNotification === 'function') {
-            showNotification('Tap the phone number on a mobile device to call.', 'info');
+            if (link.classList.contains('phone-link')) {
+                showNotification('Tap the phone number on a mobile device to call.', 'info');
+            } else if (link.classList.contains('email-link')) {
+                showNotification('Tap the email address on a mobile device to compose an email.', 'info');
+            } else {
+                showNotification('Tap the contact on a mobile device to interact.', 'info');
+            }
         }
     }
 });
 
-window.addEventListener('resize', debounce(updatePhoneLinkState, 150));
-document.addEventListener('DOMContentLoaded', updatePhoneLinkState);
+window.addEventListener('resize', debounce(updateContactLinkState, 150));
+document.addEventListener('DOMContentLoaded', updateContactLinkState);
 
 // Keyboard navigation
 document.addEventListener('keydown', function (e) {
