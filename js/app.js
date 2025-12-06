@@ -5,6 +5,7 @@ let currentSlide = 0;
 let currentProductSlide = 0;
 let inquiryList = [];
 let currentProduct = null;
+let homeAutoAdvance = null;
 
 // Initialize application
 document.addEventListener('DOMContentLoaded', function () {
@@ -148,55 +149,54 @@ function initializeHomeSlider() {
 
     if (!slider || !dotsContainer) return;
 
-    const homeImagePath = (appsettings && appsettings.imagePathHomeSlide);
-    const maxCount = 10;
-    const candidates = [];
-    for (let i = 1; i <= maxCount; i++) {
-        candidates.push(`${homeImagePath}${i}.jpg`);
-        candidates.push(`${homeImagePath}${i}.png`);
+    // Use slides data from `data/homeSlide.js` instead of dynamic filename probing.
+    // Expect `slides` to be an array of objects: { image, title?, subtitle? }
+    try {
+        if (!Array.isArray(slides) || slides.length === 0) return;
+    } catch (e) {
+        console.error('Error loading home slides data:', e);
+        return;
     }
-    candidates.push(`${homeImagePath}main.jpg`);
-    candidates.push(`${homeImagePath}main.png`);
+    const homeImagePath = (appsettings && appsettings.imagePathHomeSlide);
 
     const results = [];
-    let remaining = candidates.length;
-    if (remaining === 0) return;
-    candidates.forEach(src => {
+    slides.forEach(s => {
+        if (!s || !s.image) return; // skip if no image path provided
+        const src = `${homeImagePath}${s.image}`;
         const img = new Image();
         img.onload = function () {
-            results.push(src);
-            checkDone();
+            results.push({ src: src, title: s.title, subtitle: s.subtitle });
+            renderHomeSlidesFromImages(results, slider, dotsContainer);
         };
         img.onerror = function () {
-            checkDone();
+            renderHomeSlidesFromImages(results, slider, dotsContainer);
         };
         img.src = src;
     });
-
-    function checkDone() {
-        remaining--;
-        if (remaining <= 0) {
-            const unique = Array.from(new Set(results));
-            // Prefer any 'main' image by moving it to the front
-            const mainIdx = unique.findIndex(u => /main\.(jpg|png)$/i.test(u));
-            if (mainIdx > 0) {
-                const [main] = unique.splice(mainIdx, 1);
-                unique.unshift(main);
-            }
-            renderHomeSlidesFromImages(unique, slider, dotsContainer);
-        }
-    }
 }
 
 // Helper to render Home slides from resolved images
 function renderHomeSlidesFromImages(images, slider, dotsContainer) {
     slider.innerHTML = '';
-    images.forEach((src, index) => {
+    images.forEach((item, index) => {
+        // item expected to be { src, title?, subtitle? } — if a string is passed, treat it as src
+        const data = (typeof item === 'string') ? { src: item } : item || {};
+        const src = data.src;
+        if (!src) return;
+
         const slide = document.createElement('div');
         slide.classList.add('home-slide');
         if (index === 0) slide.classList.add('active');
+
+        const titleHtml = data.title ? `<h1>${data.title}</h1>` : '';
+        const subtitleHtml = data.subtitle ? `<p>${data.subtitle}</p>` : '';
+
         slide.innerHTML = `
             <img src="${src}" alt="Slide ${index + 1}">
+            <div class="home-content">
+                ${titleHtml}
+                ${subtitleHtml}
+            </div>
         `;
         slider.appendChild(slide);
     });
@@ -209,7 +209,31 @@ function renderHomeSlidesFromImages(images, slider, dotsContainer) {
         dot.addEventListener('click', () => goToSlide(index));
         dotsContainer.appendChild(dot);
     });
-    setInterval(nextSlide, 5000);
+    // Clear previous auto-advance if present
+    if (homeAutoAdvance) clearInterval(homeAutoAdvance);
+    homeAutoAdvance = setInterval(nextSlide, 5000);
+
+    // Add basic touch swipe support for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+    function handleTouchStart(e) { touchStartX = e.changedTouches[0].screenX; }
+    function handleTouchEnd(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        const diff = touchStartX - touchEndX;
+        const threshold = 40; // px
+        if (Math.abs(diff) > threshold) {
+            if (diff > 0) { nextSlide(); } else { previousSlide(); }
+            // reset auto-advance timer on manual swipe
+            if (homeAutoAdvance) { clearInterval(homeAutoAdvance); homeAutoAdvance = setInterval(nextSlide, 5000); }
+        }
+    }
+
+    try {
+        slider.addEventListener('touchstart', handleTouchStart, { passive: true });
+        slider.addEventListener('touchend', handleTouchEnd, { passive: true });
+    } catch (e) {
+        // ignore if environment doesn't support touch listeners
+    }
 }
 
 // Helper to render home slides and dots
@@ -254,6 +278,8 @@ function goToSlide(index) {
     if (dots[index]) dots[index].classList.add('active');
     
     currentSlide = index;
+    // reset auto-advance timer when user manually navigates
+    if (homeAutoAdvance) { clearInterval(homeAutoAdvance); homeAutoAdvance = setInterval(nextSlide, 5000); }
 }
 
 function nextSlide() {
