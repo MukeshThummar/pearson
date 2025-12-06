@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pearson Pharmaceutical</title>
+    <title></title>
     <meta name="description"
-        content="Pearson Pharmaceutical - Pearson Pharmaceutical specializes in providing high-quality medicines in the B2B market. With competitive pricing, a commitment to quality, and a customer-first approach, we serve distributors, retailers, and healthcare providers with trusted pharmaceutical products.">
+        content="">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" type="image/svg+xml" href="images/logo.svg">
+    <link rel="icon" type="image/svg+xml" href="">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -24,7 +24,7 @@
         <div class="container">
             <div class="header-content">
                 <div class="logo" onclick="navigateToHome()">
-                    <img src="images/logo.svg" alt="Pearson Pharmaceutical">
+                    <img id="company-logo" src="" alt="">
                 </div>
 
                 <nav class="nav">
@@ -67,10 +67,8 @@
             <div class="container py-16">
                 <div class="intro-section">
                     <div class="intro-content">
-                        <h2>Welcome to Pearson Pharmaceutical</h2>
-                        <p>Pearson Pharmaceutical specializes in providing high-quality medicines in the B2B market.
-                            With competitive pricing, a commitment to quality, and a customer-first approach, we serve
-                            distributors, retailers, and healthcare providers with trusted pharmaceutical products.</p>
+                        <h2 id="company-welcome"></h2>
+                        <p id="company-description"></p>
                     </div>
                 </div>
 
@@ -253,28 +251,25 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h4>Pearson Pharmaceutical</h4>
-                    <p>Pearson Pharmaceutical specializes in providing high-quality medicines in the B2B market.
-                        With competitive pricing, a commitment to quality, and a customer-first approach, we serve
-                        distributors, retailers, and healthcare providers with trusted pharmaceutical products.</p>
-                    <!-- <p><strong>Tagline:</strong> "Newly Established - Growing Together"</p> -->
+                    <h4 id="footer-company-name"></h4>
+                    <p id="footer-company-desc"></p>
                 </div>
 
                 <div class="footer-section">
                     <h4>Contact Info</h4>
-                    <p><i class="fas fa-map-marker-alt"></i> 227 Apple Square, Surat - 395010, Gujarat, India</p>
-                    <p><i class="fas fa-phone"></i> <a href="tel:+919512257160" class="phone-link" aria-disabled="true">+91 95122 57160</a></p>
-                    <p><i class="fas fa-envelope"></i> <a href="mailto:pearsonpharmaceutical@gmail.com" class="email-link" aria-disabled="true">pearsonpharmaceutical@gmail.com</a></p>
+                    <p><i class="fas fa-map-marker-alt"></i> <span id="contact-address"></span></p>
+                    <p><i class="fas fa-phone"></i> <a id="contact-phone" href="" class="phone-link" aria-disabled="true"></a></p>
+                    <p><i class="fas fa-envelope"></i> <a id="contact-email" href="" class="email-link" aria-disabled="true"></a></p>
                 </div>
                 <div class="footer-section">
                     <h4>Regulatory</h4>
-                    <p>GST No: 24AFIFS9710E1ZZ</p>
-                    <p>Drug License: GJ-SUR-242706, GJ-SUR-242707</p>
-                    <p>Established: 2024</p>
+                    <p>GST No: <span id="reg-gst"></span></p>
+                    <p>Drug License: <span id="reg-drug-license"></span></p>
+                    <p>Established: <span id="reg-established"></span></p>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 Pearson Pharmaceutical. All rights reserved.</p>
+                <p id="footer-copyright"></p>
             </div>
         </div>
     </footer>

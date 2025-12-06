@@ -2,7 +2,7 @@ const appsettings = {
     imagePathHomeSlide: 'images/',
     companyDetails: {
         name: 'Pearson Pharmaceutical',
-        tagline: 'Newly Established - Growing Together',
+        tagline: 'Prememium Quality Medicines Supplier',
         description: 'Pearson Pharmaceutical specializes in providing high-quality medicines in the B2B market. With competitive pricing, a commitment to quality, and a customer-first approach, we serve distributors, retailers, and healthcare providers with trusted pharmaceutical products.',
         logoPath: 'images/logo.svg',
         contact: {

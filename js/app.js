@@ -849,6 +849,100 @@ function updateContactLinkState() {
     });
 }
 
+function populateAppSettings() {
+    try {
+        const company = window.appsettings && window.appsettings.companyDetails;
+        if (!company) return;
+
+        const settings = company.contact || {};
+
+        // Address
+        const addrEl = document.getElementById('contact-address');
+        if (addrEl && settings.address) addrEl.textContent = settings.address;
+
+        // Phone
+        const phoneEl = document.getElementById('contact-phone');
+        if (phoneEl && settings.phone) {
+            const raw = settings.phone;
+            const href = 'tel:' + raw.replace(/[^+0-9]/g, '');
+            phoneEl.setAttribute('href', href);
+            phoneEl.textContent = raw;
+        }
+
+        // Email
+        const emailEl = document.getElementById('contact-email');
+        if (emailEl && settings.email) {
+            emailEl.setAttribute('href', 'mailto:' + settings.email);
+            emailEl.textContent = settings.email;
+        }
+
+        // Regulatory
+        const reg = company.regulatory || {};
+        const gstEl = document.getElementById('reg-gst');
+        if (gstEl && reg.gst) gstEl.textContent = reg.gst;
+        const licEl = document.getElementById('reg-drug-license');
+        if (licEl && reg.drugLicense) licEl.textContent = reg.drugLicense;
+        const estEl = document.getElementById('reg-established');
+        if (estEl && reg.established) estEl.textContent = reg.established;
+
+        // Company name & description
+        const name = company.name;
+        const desc = company.description;
+
+        if (name) {
+            // Title
+            try { document.title = name; } catch (e) {}
+
+             // Favicon
+            if (company.logoPath) {
+                const favicon = document.querySelector('link[rel="icon"]');
+                if (favicon) {
+                    favicon.setAttribute('href', company.logoPath);
+                }
+            }
+                        
+            // Logo: src and alt
+            const logoImg = document.getElementById('company-logo');
+            if (logoImg) {
+                if (company.logoPath) {
+                    logoImg.setAttribute('src', company.logoPath);
+                }
+                logoImg.setAttribute('alt', name);
+            }
+
+           // Welcome heading
+            const welcomeEl = document.getElementById('company-welcome');
+            if (welcomeEl) welcomeEl.textContent = 'Welcome to ' + name;
+
+            // footer name
+            const footerName = document.getElementById('footer-company-name');
+            if (footerName) footerName.textContent = name;
+
+            // Footer copyright update
+            const copyEl = document.getElementById('footer-copyright');
+            if (copyEl) {
+                const year = new Date().getFullYear();
+                copyEl.innerHTML = '&copy; ' + year + ' ' + (name || '') + '. All rights reserved.';
+            }
+        }
+
+        if (desc) {
+            // meta description
+            const metaDesc = document.querySelector('meta[name="description"]');
+            if (metaDesc) metaDesc.setAttribute('content', name + ' - ' + desc);
+
+            const introDesc = document.getElementById('company-description');
+            if (introDesc) introDesc.textContent = desc;
+
+            const footerDesc = document.getElementById('footer-company-desc');
+            if (footerDesc) footerDesc.textContent = desc;
+
+        }
+    } catch (err) {
+        console.error('Failed to populate contact from settings', err);
+    }
+}
+
 // Prevent click on contact links when aria-disabled is true
 document.addEventListener('click', function (e) {
     const link = e.target.closest && e.target.closest('.phone-link, .email-link');
@@ -868,7 +962,10 @@ document.addEventListener('click', function (e) {
 });
 
 window.addEventListener('resize', debounce(updateContactLinkState, 150));
-document.addEventListener('DOMContentLoaded', updateContactLinkState);
+document.addEventListener('DOMContentLoaded', function () {
+    populateAppSettings();
+    updateContactLinkState();
+});
 
 // Keyboard navigation
 document.addEventListener('keydown', function (e) {
