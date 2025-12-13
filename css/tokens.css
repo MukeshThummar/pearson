@@ -10,8 +10,7 @@
   --color-gray-200: rgba(245, 245, 245, 1);
   --color-gray-300: rgba(167, 169, 169, 1);
   --color-gray-400: rgba(119, 124, 124, 1);
-  --color-slate-500: rgba(255, 0, 0, 1);
-  --color-slate-5001: rgba(196, 226, 240, 0.582);
+  --color-slate-500: rgba(196, 226, 240, 0.582);
   --color-brown-600: rgba(94, 82, 64, 1);
   --color-charcoal-700: rgba(31, 33, 33, 1);
   --color-charcoal-800: rgba(38, 40, 40, 1);
@@ -51,7 +50,7 @@
   --color-background: var(--color-cream-50);
   --color-surface: var(--color-cream-100);
   --color-text: var(--color-slate-900);
-  --color-text-secondary: var(--color-slate-500);
+  --color-text-secondary: rgba(var(--color-slate-900-rgb), 0.68);
   --color-primary: var(--color-teal-500);
   --color-primary-hover: var(--color-teal-600);
   --color-primary-active: var(--color-teal-700);
@@ -270,7 +269,7 @@
   --color-background: var(--color-cream-50);
   --color-surface: var(--color-cream-100);
   --color-text: var(--color-slate-900);
-  --color-text-secondary: var(--color-slate-500);
+  --color-text-secondary: rgba(var(--color-slate-900-rgb), 0.68);
   --color-primary: var(--color-teal-500);
   --color-primary-hover: var(--color-teal-600);
   --color-primary-active: var(--color-teal-700);
