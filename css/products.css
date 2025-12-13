@@ -12,13 +12,6 @@
   color: var(--color-primary);
 }
 
-.lead {
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-secondary);
-  margin-bottom: var(--space-16);
-}
-
 .section-header {
   text-align: center;
   margin-bottom: var(--space-32);
