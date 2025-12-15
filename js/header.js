@@ -9,6 +9,38 @@ function initializeNavigation() {
             navigateToSection(section);
         });
     });
+
+    // Mobile drawer toggle
+    const navToggle = document.querySelector('.nav-toggle');
+    const mobileDrawer = document.querySelector('.mobile-drawer');
+    const drawerBackdrop = document.createElement('div');
+    drawerBackdrop.className = 'drawer-backdrop';
+    document.body.appendChild(drawerBackdrop);
+
+    function openDrawer() {
+        if (mobileDrawer) mobileDrawer.classList.add('open');
+        drawerBackdrop.classList.add('visible');
+        if (navToggle) navToggle.setAttribute('aria-expanded','true');
+    }
+
+    function closeDrawer() {
+        if (mobileDrawer) mobileDrawer.classList.remove('open');
+        drawerBackdrop.classList.remove('visible');
+        if (navToggle) navToggle.setAttribute('aria-expanded','false');
+    }
+
+    if (navToggle) {
+        navToggle.addEventListener('click', function () {
+            if (mobileDrawer && mobileDrawer.classList.contains('open')) closeDrawer(); else openDrawer();
+        });
+    }
+
+    drawerBackdrop.addEventListener('click', closeDrawer);
+
+    // Close drawer when a nav link is clicked (mobile)
+    document.querySelectorAll('.mobile-drawer .nav-link').forEach(link => {
+        link.addEventListener('click', function () { closeDrawer(); });
+    });
 }
 
 function navigateToSection(sectionName) {
