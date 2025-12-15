@@ -37,9 +37,9 @@
                 <!-- Mobile Drawer (markup placed here so DOM exists) -->
                 <div class="mobile-drawer" aria-hidden="true">
                     <ul class="nav-list">
-                        <li><a href="#home" class="nav-link active" data-section="home">Home</a></li>
-                        <li><a href="#products" class="nav-link" data-section="products">Products</a></li>
-                        <li><a href="#contact" class="nav-link" data-section="contact">ReachUs</a></li>
+                        <li><a href="#home" class="nav-link active" data-section="home" onclick="handleDrawerLinkClick(event)">Home</a></li>
+                        <li><a href="#products" class="nav-link" data-section="products" onclick="handleDrawerLinkClick(event)">Products</a></li>
+                        <li><a href="#contact" class="nav-link" data-section="contact" onclick="handleDrawerLinkClick(event)">ReachUs</a></li>
                     </ul>
                 </div>
 
@@ -288,6 +288,22 @@
         <div class="loading-spinner"></div>
         <p>Processing your request...</p>
     </div>
+
+    <!-- Inline handler for drawer links -->
+    <script>
+        function handleDrawerLinkClick(event) {
+            event.preventDefault();
+            const section = event.target.getAttribute('data-section');
+            console.log('Drawer link clicked:', section);
+            navigateToSection(section);
+            const drawer = document.querySelector('.mobile-drawer');
+            if (drawer) {
+                drawer.classList.remove('open');
+                const backdrop = document.querySelector('.drawer-backdrop');
+                if (backdrop) backdrop.classList.remove('visible');
+            }
+        }
+    </script>
 
     <!-- Load all modules BEFORE app.js initialization -->
     <!-- Load data modules first -->
