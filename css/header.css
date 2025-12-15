@@ -21,17 +21,31 @@
   left: 0;
   right: 0;
   z-index: 1000;
-  background: var(--color-surface);
-  border-bottom: 1px solid var(--color-border);
-  box-shadow: var(--shadow-sm);
-  transition: all var(--duration-normal) var(--ease-standard);
+  /* semi-transparent background with blur for better legibility */
+  background: rgba(255, 255, 255, 0.85);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  border-bottom: none;
+  box-shadow: none;
+  transition: background-color var(--duration-normal) var(--ease-standard), box-shadow var(--duration-normal) var(--ease-standard);
 }
 
 .header-content {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  /* desktop: space between items (logo left, actions right) */
   padding: var(--space-12) 0;
+  /* larger padding to fit logo */
+}
+
+
+.nav-toggle {
+  position: absolute;
+  left: var(--space-12);
+  top: 10px;
+  z-index: 1300;
 }
 
 .logo {
@@ -40,15 +54,12 @@
   gap: var(--space-12);
   cursor: pointer;
   transition: opacity var(--duration-fast) var(--ease-standard);
-}
-
-.logo:hover {
-  opacity: 0.8;
+  position: relative;
 }
 
 .logo img {
   width: 250px;
-  height: 75px;
+  height: 80px;
   object-fit: contain;
 }
 
@@ -65,6 +76,99 @@
   list-style: none;
   margin: 0;
   padding: 0;
+}
+
+/* Mobile hamburger */
+.nav-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.nav-toggle .hamburger,
+.nav-toggle .hamburger::before,
+.nav-toggle .hamburger::after {
+  content: '';
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--color-text);
+  border-radius: 2px;
+}
+
+.nav-toggle .hamburger::before {
+  transform: translateY(-6px);
+}
+
+.nav-toggle .hamburger::after {
+  transform: translateY(4px);
+}
+
+/* Mobile drawer */
+.mobile-drawer {
+  position: fixed;
+  top: 0;
+  right: -320px;
+  width: 320px;
+  height: 100vh;
+  background: var(--color-surface);
+  box-shadow: -8px 0 24px rgba(0, 0, 0, 0.12);
+  transition: right 260ms var(--ease-standard);
+  z-index: 1200;
+  padding: var(--space-24);
+  overflow-y: auto;
+}
+
+.mobile-drawer.open {
+  right: 0;
+}
+
+.mobile-drawer .nav-list {
+  flex-direction: column;
+  gap: var(--space-12);
+  display: flex;
+}
+
+.mobile-drawer .nav-list .nav-link {
+  display: block;
+  color: var(--color-text);
+  padding: var(--space-12) 0;
+  font-size: var(--font-size-lg);
+}
+
+.mobile-drawer .nav-list .nav-link:hover {
+  color: var(--color-primary);
+}
+
+.mobile-drawer .nav-list .nav-link {
+  display: block;
+  color: var(--color-text);
+  padding: var(--space-12) 0;
+  font-size: var(--font-size-lg);
+}
+
+.mobile-drawer .nav-list .nav-link:hover {
+  color: var(--color-primary);
+}
+
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms var(--ease-standard);
+}
+
+.drawer-backdrop.visible {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .nav-link {
@@ -98,6 +202,10 @@
   font-weight: var(--font-weight-medium);
   cursor: pointer;
   transition: background var(--duration-fast) var(--ease-standard);
+  position: absolute;
+  right: var(--space-16);
+  top: 8px;
+  z-index: 1300;
 }
 
 .inquiry-cart-btn:hover {
@@ -116,11 +224,61 @@
 }
 
 .main {
-  margin-top: 80px;
+  margin-top: 96px;
 }
 
 .section {
   display: block;
   min-height: auto;
   padding: var(--space-32) 0;
+}
+
+
+@media (max-width: 768px) {
+  .nav-list {
+    display: none;
+  }
+
+  .nav-toggle {
+    display: inline-flex;
+  }
+
+  .logo img {
+    width: 160px;
+    height: 52px;
+  }
+
+  .inquiry-cart-btn {
+    padding: var(--space-8);
+    border-radius: var(--radius-full);
+    position: absolute;
+    right: var(--space-12);
+    top: 8px;
+  }
+
+  .inquiry-cart-btn .inquiry-text {
+    display: none;
+  }
+
+  .inquiry-cart-btn .cart-icon {
+    font-size: 18px;
+  }
+
+  .inquiry-count {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    transform: none;
+  }
+
+  .header {
+    padding-inline: var(--space-8);
+  }
+}
+
+/* If you want header to become solid on scroll, add .header--solid in JS */
+.header.header--solid {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
 }
