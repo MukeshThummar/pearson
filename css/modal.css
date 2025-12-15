@@ -13,11 +13,13 @@
   opacity: 1;
   visibility: visible;
   transition: all var(--duration-normal) var(--ease-standard);
+  pointer-events: auto;
 }
 
 .modal.hidden {
   opacity: 0;
   visibility: hidden;
+  pointer-events: none !important;
 }
 
 .modal-content {
@@ -310,10 +312,12 @@
   align-items: center;
   justify-content: center;
   color: white;
+  pointer-events: auto;
 }
 
 .loading-overlay.hidden {
   display: none;
+  pointer-events: none !important;
 }
 
 .loading-spinner {
