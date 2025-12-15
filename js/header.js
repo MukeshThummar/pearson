@@ -1,22 +1,17 @@
 // Header and navigation related functions
 
 function initializeNavigation() {
-    const navLinks = document.querySelectorAll('.nav-link');
+    const navLinks = document.querySelectorAll('.nav-list:not(.mobile-drawer .nav-list) .nav-link');
     
-    // Handler function for nav link clicks
+    // Handler function for nav link clicks (DESKTOP ONLY)
     function handleNavLinkClick(e) {
         e.preventDefault();
         const section = this.getAttribute('data-section');
-        console.log('Nav link clicked - Section:', section);
+        console.log('Desktop nav link clicked - Section:', section);
         navigateToSection(section);
-        // Close drawer if this is a mobile drawer link
-        const drawer = document.querySelector('.mobile-drawer');
-        if (drawer && drawer.classList.contains('open')) {
-            closeDrawer();
-        }
     }
     
-    // Add click handler to ALL nav links (both desktop and mobile)
+    // Add click handler to DESKTOP nav links only
     navLinks.forEach(link => {
         link.addEventListener('click', handleNavLinkClick);
     });
@@ -59,9 +54,15 @@ function initializeNavigation() {
         });
     }
 
-    // Close drawer on backdrop click
+    // Close drawer ONLY when clicking OUTSIDE the drawer (on backdrop)
     if (drawerBackdrop) {
-        drawerBackdrop.addEventListener('click', closeDrawer);
+        drawerBackdrop.addEventListener('click', function(e) {
+            console.log('Backdrop clicked - target:', e.target);
+            // Only close if click is directly on backdrop, not on drawer
+            if (e.target === drawerBackdrop) {
+                closeDrawer();
+            }
+        });
     }
 }
 
@@ -78,13 +79,13 @@ function navigateToSection(sectionName) {
         console.warn('Section not found:', sectionName);
     }
     
-    // Update active link
+    // Update active link - both desktop and mobile
     document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
-    const activeLink = document.querySelector(`[data-section="${sectionName}"]`);
-    if (activeLink) {
-        activeLink.classList.add('active');
+    const activeLinks = document.querySelectorAll(`[data-section="${sectionName}"]`);
+    activeLinks.forEach(link => {
+        link.classList.add('active');
         console.log('Active link updated for:', sectionName);
-    }
+    });
 }
 
 function navigateToHome() { navigateToSection('home'); }
