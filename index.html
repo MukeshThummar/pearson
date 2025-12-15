@@ -48,9 +48,9 @@
                 <!-- Mobile Drawer (markup placed here so DOM exists) -->
                 <div class="mobile-drawer" aria-hidden="true" id="mobileDrawer">
                     <ul class="nav-list" id="drawerNavList">
-                        <li><a href="javascript:void(0);" class="nav-link active" data-section="home" onclick="handleDrawerLinkClick(event, 'home')">Home</a></li>
-                        <li><a href="javascript:void(0);" class="nav-link" data-section="products" onclick="handleDrawerLinkClick(event, 'products')">Products</a></li>
-                        <li><a href="javascript:void(0);" class="nav-link" data-section="contact" onclick="handleDrawerLinkClick(event, 'contact')">ReachUs</a></li>
+                        <li><a href="javascript:void(0);" class="nav-link active" data-section="home" onclick="handleDrawerLinkClick(event, 'home'); return false;">Home</a></li>
+                        <li><a href="javascript:void(0);" class="nav-link" data-section="products" onclick="handleDrawerLinkClick(event, 'products'); return false;">Products</a></li>
+                        <li><a href="javascript:void(0);" class="nav-link" data-section="contact" onclick="handleDrawerLinkClick(event, 'contact'); return false;">ReachUs</a></li>
                     </ul>
                 </div>
 
@@ -304,10 +304,12 @@
     <script>
         // Simple direct handler for drawer links
         function handleDrawerLinkClick(event, section) {
-            console.log('>>> DRAWER LINK CLICKED <<<', section);
+            console.log('>>> DRAWER LINK ONCLICK HANDLER FIRED <<<', section);
             event.preventDefault();
             event.stopPropagation();
+            event.stopImmediatePropagation();
             
+            console.log('Calling navigateToSection:', section);
             if (typeof navigateToSection === 'function') {
                 navigateToSection(section);
             } else {
@@ -322,31 +324,14 @@
             const drawer = document.getElementById('mobileDrawer');
             if (drawer) {
                 drawer.classList.remove('open');
+                console.log('Drawer closed');
             }
             const backdrop = document.querySelector('.drawer-backdrop');
             if (backdrop) {
                 backdrop.classList.remove('visible');
             }
+            return false;
         }
-
-        // Add click listeners to drawer links as additional safeguard
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM Content Loaded - Setting up drawer link listeners');
-            const drawerLinks = document.querySelectorAll('.mobile-drawer .nav-link');
-            console.log('Found drawer links:', drawerLinks.length);
-            
-            drawerLinks.forEach((link, index) => {
-                const section = link.getAttribute('data-section');
-                console.log('Attaching listener to drawer link', index, ':', section);
-                
-                link.addEventListener('click', function(e) {
-                    console.log('Drawer link clicked (event listener):', section);
-                    e.preventDefault();
-                    e.stopPropagation();
-                    handleDrawerLinkClick(e, section);
-                });
-            });
-        });
     </script>
 
     <!-- Load all modules BEFORE app.js initialization -->
