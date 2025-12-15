@@ -32,12 +32,9 @@ function initializeNavigation() {
         console.log('Opening drawer');
         if (mobileDrawer) {
             mobileDrawer.classList.add('open');
-            mobileDrawer.style.pointerEvents = 'auto';
         }
         if (drawerBackdrop) {
             drawerBackdrop.classList.add('visible');
-            // Allow backdrop to receive clicks
-            drawerBackdrop.style.pointerEvents = 'auto';
         }
         if (navToggle) navToggle.setAttribute('aria-expanded', 'true');
     }
@@ -46,19 +43,17 @@ function initializeNavigation() {
         console.log('Closing drawer');
         if (mobileDrawer) {
             mobileDrawer.classList.remove('open');
-            mobileDrawer.style.pointerEvents = 'auto';
         }
         if (drawerBackdrop) {
             drawerBackdrop.classList.remove('visible');
-            // Disable backdrop clicks when closed
-            drawerBackdrop.style.pointerEvents = 'none';
         }
         if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
     }
 
     // Toggle drawer on hamburger click
     if (navToggle) {
-        navToggle.addEventListener('click', function () {
+        navToggle.addEventListener('click', function (e) {
+            e.stopPropagation();
             console.log('Toggle button clicked');
             if (mobileDrawer && mobileDrawer.classList.contains('open')) {
                 closeDrawer();
@@ -68,19 +63,26 @@ function initializeNavigation() {
         });
     }
 
-    // Close drawer when clicking on backdrop (empty area outside drawer)
+    // CRITICAL: Backdrop should only close drawer on backdrop click, NOT propagate from drawer
     if (drawerBackdrop) {
         drawerBackdrop.addEventListener('click', function(e) {
-            console.log('Backdrop clicked - checking if should close');
-            // Check if click originated from outside the drawer
+            // STOP PROPAGATION - don't let drawer clicks bubble to backdrop
             const mobileDrawer = document.querySelector('.mobile-drawer');
-            if (mobileDrawer && !mobileDrawer.contains(e.target)) {
-                console.log('Click outside drawer - closing');
-                closeDrawer();
-            } else {
-                console.log('Click inside drawer - NOT closing');
+            
+            // Only close if the click is directly on the backdrop element itself
+            // and NOT on any child of the drawer
+            if (mobileDrawer && mobileDrawer.contains(e.target)) {
+                console.log('Click inside drawer - STOPPING PROPAGATION');
+                e.stopPropagation();
+                return;
             }
-        });
+            
+            // Only close if backdrop is visible and click is on backdrop
+            if (drawerBackdrop.classList.contains('visible')) {
+                console.log('Click on backdrop background - closing drawer');
+                closeDrawer();
+            }
+        }, false); // Use capture phase
     }
 }
 
@@ -100,6 +102,7 @@ function navigateToSection(sectionName) {
     // Close drawer after navigation
     const mobileDrawer = document.querySelector('.mobile-drawer');
     if (mobileDrawer && mobileDrawer.classList.contains('open')) {
+        console.log('Auto-closing drawer after navigation');
         const backdrop = document.querySelector('.drawer-backdrop');
         mobileDrawer.classList.remove('open');
         if (backdrop) backdrop.classList.remove('visible');
