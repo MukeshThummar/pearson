@@ -122,6 +122,7 @@
   z-index: 1200;
   padding: var(--space-24);
   overflow-y: auto;
+  padding-top: 96px;
 }
 
 .mobile-drawer.open {
@@ -147,6 +148,9 @@
   cursor: pointer;
   border-radius: var(--radius-base);
   transition: all var(--duration-fast) var(--ease-standard);
+  pointer-events: auto;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .mobile-drawer .nav-list .nav-link:hover,
@@ -155,11 +159,12 @@
   background: var(--color-bg-1);
 }
 
+/* Drawer backdrop - only blocks clicks outside the drawer */
 .drawer-backdrop {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.4);
-  z-index: 1100;
+  z-index: 1150;
   opacity: 0;
   pointer-events: none;
   transition: opacity 200ms var(--ease-standard);
