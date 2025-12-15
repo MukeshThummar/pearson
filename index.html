@@ -10,6 +10,17 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" type="image/svg+xml" href="">
     <link href="css/font-awesome/css2.css?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Debug styles - make drawer clickable area visible */
+        .mobile-drawer {
+            user-select: text !important;
+            -webkit-user-select: text !important;
+        }
+        .mobile-drawer .nav-link {
+            user-select: text !important;
+            -webkit-user-select: text !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -35,11 +46,11 @@
                     </ul>
                 </nav>
                 <!-- Mobile Drawer (markup placed here so DOM exists) -->
-                <div class="mobile-drawer" aria-hidden="true">
-                    <ul class="nav-list">
-                        <li><a href="#home" class="nav-link active" data-section="home" onclick="handleDrawerLinkClick(event)">Home</a></li>
-                        <li><a href="#products" class="nav-link" data-section="products" onclick="handleDrawerLinkClick(event)">Products</a></li>
-                        <li><a href="#contact" class="nav-link" data-section="contact" onclick="handleDrawerLinkClick(event)">ReachUs</a></li>
+                <div class="mobile-drawer" aria-hidden="true" id="mobileDrawer">
+                    <ul class="nav-list" id="drawerNavList">
+                        <li><a href="javascript:void(0);" class="nav-link active" data-section="home" onclick="handleDrawerLinkClick(event, 'home')">Home</a></li>
+                        <li><a href="javascript:void(0);" class="nav-link" data-section="products" onclick="handleDrawerLinkClick(event, 'products')">Products</a></li>
+                        <li><a href="javascript:void(0);" class="nav-link" data-section="contact" onclick="handleDrawerLinkClick(event, 'contact')">ReachUs</a></li>
                     </ul>
                 </div>
 
@@ -289,20 +300,53 @@
         <p>Processing your request...</p>
     </div>
 
-    <!-- Inline handler for drawer links -->
+    <!-- CRITICAL: Simple drawer link handler -->
     <script>
-        function handleDrawerLinkClick(event) {
+        // Simple direct handler for drawer links
+        function handleDrawerLinkClick(event, section) {
+            console.log('>>> DRAWER LINK CLICKED <<<', section);
             event.preventDefault();
-            const section = event.target.getAttribute('data-section');
-            console.log('Drawer link clicked:', section);
-            navigateToSection(section);
-            const drawer = document.querySelector('.mobile-drawer');
+            event.stopPropagation();
+            
+            if (typeof navigateToSection === 'function') {
+                navigateToSection(section);
+            } else {
+                console.log('navigateToSection not defined yet, using direct scroll');
+                const target = document.getElementById(section);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+            
+            // Close drawer
+            const drawer = document.getElementById('mobileDrawer');
             if (drawer) {
                 drawer.classList.remove('open');
-                const backdrop = document.querySelector('.drawer-backdrop');
-                if (backdrop) backdrop.classList.remove('visible');
+            }
+            const backdrop = document.querySelector('.drawer-backdrop');
+            if (backdrop) {
+                backdrop.classList.remove('visible');
             }
         }
+
+        // Add click listeners to drawer links as additional safeguard
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM Content Loaded - Setting up drawer link listeners');
+            const drawerLinks = document.querySelectorAll('.mobile-drawer .nav-link');
+            console.log('Found drawer links:', drawerLinks.length);
+            
+            drawerLinks.forEach((link, index) => {
+                const section = link.getAttribute('data-section');
+                console.log('Attaching listener to drawer link', index, ':', section);
+                
+                link.addEventListener('click', function(e) {
+                    console.log('Drawer link clicked (event listener):', section);
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleDrawerLinkClick(e, section);
+                });
+            });
+        });
     </script>
 
     <!-- Load all modules BEFORE app.js initialization -->
