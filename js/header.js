@@ -30,15 +30,29 @@ function initializeNavigation() {
 
     function openDrawer() {
         console.log('Opening drawer');
-        if (mobileDrawer) mobileDrawer.classList.add('open');
-        if (drawerBackdrop) drawerBackdrop.classList.add('visible');
+        if (mobileDrawer) {
+            mobileDrawer.classList.add('open');
+            mobileDrawer.style.pointerEvents = 'auto';
+        }
+        if (drawerBackdrop) {
+            drawerBackdrop.classList.add('visible');
+            // Allow backdrop to receive clicks
+            drawerBackdrop.style.pointerEvents = 'auto';
+        }
         if (navToggle) navToggle.setAttribute('aria-expanded', 'true');
     }
 
     function closeDrawer() {
         console.log('Closing drawer');
-        if (mobileDrawer) mobileDrawer.classList.remove('open');
-        if (drawerBackdrop) drawerBackdrop.classList.remove('visible');
+        if (mobileDrawer) {
+            mobileDrawer.classList.remove('open');
+            mobileDrawer.style.pointerEvents = 'auto';
+        }
+        if (drawerBackdrop) {
+            drawerBackdrop.classList.remove('visible');
+            // Disable backdrop clicks when closed
+            drawerBackdrop.style.pointerEvents = 'none';
+        }
         if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
     }
 
@@ -54,13 +68,17 @@ function initializeNavigation() {
         });
     }
 
-    // Close drawer ONLY when clicking OUTSIDE the drawer (on backdrop)
+    // Close drawer when clicking on backdrop (empty area outside drawer)
     if (drawerBackdrop) {
         drawerBackdrop.addEventListener('click', function(e) {
-            console.log('Backdrop clicked - target:', e.target);
-            // Only close if click is directly on backdrop, not on drawer
-            if (e.target === drawerBackdrop) {
+            console.log('Backdrop clicked - checking if should close');
+            // Check if click originated from outside the drawer
+            const mobileDrawer = document.querySelector('.mobile-drawer');
+            if (mobileDrawer && !mobileDrawer.contains(e.target)) {
+                console.log('Click outside drawer - closing');
                 closeDrawer();
+            } else {
+                console.log('Click inside drawer - NOT closing');
             }
         });
     }
@@ -77,6 +95,14 @@ function navigateToSection(sectionName) {
         console.log('Scrolled to section:', sectionName);
     } else {
         console.warn('Section not found:', sectionName);
+    }
+    
+    // Close drawer after navigation
+    const mobileDrawer = document.querySelector('.mobile-drawer');
+    if (mobileDrawer && mobileDrawer.classList.contains('open')) {
+        const backdrop = document.querySelector('.drawer-backdrop');
+        mobileDrawer.classList.remove('open');
+        if (backdrop) backdrop.classList.remove('visible');
     }
     
     // Update active link - both desktop and mobile
