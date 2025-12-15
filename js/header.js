@@ -38,8 +38,14 @@ function initializeNavigation() {
     drawerBackdrop.addEventListener('click', closeDrawer);
 
     // Close drawer when a nav link is clicked (mobile)
+    // FIXED: Now properly calls navigateToSection for mobile drawer links
     document.querySelectorAll('.mobile-drawer .nav-link').forEach(link => {
-        link.addEventListener('click', function () { closeDrawer(); });
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+            const section = this.getAttribute('data-section');
+            navigateToSection(section);
+            closeDrawer();
+        });
     });
 }
 
@@ -60,4 +66,3 @@ function navigateToSection(sectionName) {
 function navigateToHome() { navigateToSection('home'); }
 function navigateToProducts() { navigateToSection('products'); }
 function navigateToContact() { navigateToSection('contact'); }
-
