@@ -9,6 +9,9 @@ var inquiryList = [];
 var currentProduct = null;
 var homeAutoAdvance = null;
 
+// Check if we're running from file:// protocol (local file)
+const isLocalFile = window.location.protocol === 'file:';
+
 // Load all required module scripts dynamically
 function loadModules() {
     const modules = [
@@ -24,6 +27,14 @@ function loadModules() {
         'js/contact.js',
         'js/home.js'
     ];
+
+    // If running from file://, defer initialization slightly to allow sync scripts to load
+    if (isLocalFile) {
+        console.warn('Running from local file:// - module loading may have delays');
+        // Give a small delay for inline scripts to execute
+        setTimeout(initializeAppAfterModules, 100);
+        return;
+    }
 
     let loadedCount = 0;
     
@@ -50,6 +61,7 @@ function loadModules() {
 
 // Initialize app after all modules load
 function initializeAppAfterModules() {
+    console.log('Initializing app after modules');
     try { if (typeof populateAppSettings === 'function') populateAppSettings(); } catch (e) { console.error('populateAppSettings error:', e); }
     try { initializeNavigation(); } catch (e) { console.error('initializeNavigation error:', e); }
     try { initializeHomeSlider(); } catch (e) { console.error('initializeHomeSlider error:', e); }
