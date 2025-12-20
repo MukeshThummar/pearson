@@ -3,7 +3,7 @@ const appsettings = {
     companyDetails: {
         name: 'Pearson Pharmaceutical',
         tagline: 'Prememium Quality Medicines Supplier',
-        description: 'Pearson Pharmaceutical specializes in providing high-quality medicines in the B2B market. With competitive pricing, a commitment to quality, and a customer-first approach, we serve distributors, retailers, and healthcare providers with trusted pharmaceutical products.',
+        description: 'Pearson Pharmaceutical focuses on delivering premium pharmaceuticals in the B2B sector. Through competitive pricing, dedication to quality, and a focus on customers, we provide distributors, retailers, and healthcare professionals with reliable pharmaceutical products.',
         logoPath: 'images/logo.svg',
         contact: {
             address: '227 Apple Square, Surat - 395010, Gujarat, India',
