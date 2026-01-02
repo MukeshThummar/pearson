@@ -22,6 +22,7 @@ function loadModules() {
         'js/product.js',
         'js/inquiry.js',
         'js/contact.js',
+        'js/whatsapp.js',
         'js/home.js'
     ];
 

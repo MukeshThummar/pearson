@@ -14,6 +14,10 @@ const appsettings = {
             gst: '24AFIFS9710E1ZZ',
             drugLicense: 'GJ-SUR-242706, GJ-SUR-242707',
             established: '2024'
+        },
+        whatsapp: {
+            phoneNumber: '+919512257160', 
+            message: 'Hello! I am interested in your pharmaceutical products. Can you provide more information?' 
         }
     }
 };
