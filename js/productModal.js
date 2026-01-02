@@ -29,7 +29,7 @@ function updateModalContent(product) {
     };
 
     if (elements.modalProductName) elements.modalProductName.textContent = product.name;
-    if (elements.modalMrp) elements.modalMrp.textContent = product.mrp ? `₹${product.mrp}` : 'N/A';
+    if (elements.modalMrp) elements.modalMrp.textContent = product.mrp ? `₹${product.mrp}` : '';
     if (elements.modalComposition) elements.modalComposition.textContent = product.composition || '';
     if (elements.modalCategory) elements.modalCategory.textContent = product.category || '';
     if (elements.modalIndications) elements.modalIndications.textContent = product.indications || '';
@@ -87,33 +87,6 @@ function setupProductImageSlider(images) {
     });
 
     currentProductSlide = 0;
-
-    // Add touch/swipe support for mobile
-    if (images.length > 1) {
-        let touchStartX = 0;
-        let touchEndX = 0;
-        const sliderContainer = slider.parentElement;
-
-        sliderContainer.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        }, false);
-
-        sliderContainer.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        }, false);
-
-        function handleSwipe() {
-            const swipeThreshold = 40;
-            if (touchStartX - touchEndX > swipeThreshold) {
-                // Swiped left → next image
-                nextProductImage();
-            } else if (touchEndX - touchStartX > swipeThreshold) {
-                // Swiped right → previous image
-                previousProductImage();
-            }
-        }
-    }
 }
 
 function goToProductSlide(index) {
