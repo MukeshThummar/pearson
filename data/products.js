@@ -9,7 +9,8 @@ const products = [
     packaging: "10 strips of 10 tablets each box, Aluminium Foil",
     category: "Pain Relief",
     description: "Triple action formula for effective pain and inflammation management",
-    image_folder: "pearflam"
+    image_folder: "pearflam",
+    mrp: 125
   },
   {
     id: "002",
@@ -21,7 +22,8 @@ const products = [
     packaging: "10 strips of 10 tablets each box",
     category: "Allergy Care",
     description: "Dual action allergy relief for Respiratory conditions",
-    image_folder: "limson"
+    image_folder: "limson",
+    mrp: 95
   },
   {
     id: "003",
@@ -33,7 +35,8 @@ const products = [
     packaging: "10 strips of 10 tablets each box",
     category: "Antibiotic",
     description: "Broad spectrum antibiotic with anti-protozoal action",
-    image_folder: "Oflar"
+    image_folder: "Oflar",
+    mrp: 110
   },
   {
     id: "004",
@@ -45,7 +48,8 @@ const products = [
     packaging: "10 strips of 10 dispersible tablets each box",
     category: "Antibiotic",
     description: "Third generation cephalosporin antibiotic in dispersible form",
-    image_folder: "pearcef"
+    image_folder: "pearcef",
+    mrp: 135
   },
   {
     id: "005",
@@ -57,7 +61,8 @@ const products = [
     packaging: "1X1ml Dispo Pack",
     category: "Injectable",
     description: "Advanced neurotropic supplement for nerve health",
-    image_folder: "bitson"
+    image_folder: "bitson",
+    mrp: 85
   },
   {
     id: "006",
@@ -69,7 +74,8 @@ const products = [
     packaging: "10 strips of 10 tablets each box",
     category: "Antibiotic",
     description: "Beta-lactam antibiotic with beta-lactamase inhibitor",
-    image_folder: "clavson"
+    image_folder: "clavson",
+    mrp: 145
   },
   {
     id: "007",
@@ -81,7 +87,8 @@ const products = [
     packaging: "10 strips of 10 capsules each box",
     category: "Gastro Care",
     description: "Proton pump inhibitor with prokinetic agent",
-    image_folder: "rson"
+    image_folder: "rson",
+    mrp: 155
   },
   {
     id: "008",
@@ -93,7 +100,8 @@ const products = [
     packaging: "100ml bottle with measuring cap, Mix Fruit flavour",
     category: "Syrup",
     description: "Multi-action syrup for productive cough relief",
-    image_folder: "qcoldx"
+    image_folder: "qcoldx",
+    mrp: 75
   },
   {
     id: "009",
@@ -105,7 +113,8 @@ const products = [
     packaging: "100ml bottle with measuring cap, Strawberry flavour",
     category: "Syrup",
     description: "Effective dry cough suppressant with decongestant",
-    image_folder: "qcolddx"
+    image_folder: "qcolddx",
+    mrp: 78
   },
   {
     id: "010",
@@ -117,7 +126,8 @@ const products = [
     packaging: "Vial with sterile water for injection",
     category: "Injectable",
     description: "Third generation cephalosporin for severe infections",
-    image_folder: "cefvit"
+    image_folder: "cefvit",
+    mrp: 165
   },
   {
     id: "011",
@@ -129,6 +139,7 @@ const products = [
     packaging: "10 strips of 10 tablets each box",
     category: "Antibiotic",
     description: "Broad-spectrum cephalosporin antibiotic effective against a wide range of bacterial infections",
-    image_folder: "cefpod"
+    image_folder: "cefpod",
+    mrp: 120
   }
 ];
