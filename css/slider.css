@@ -149,23 +149,6 @@
   background: var(--color-primary-hover);
 }
 
-/* .home-nav .home-dots {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 18px;
-  pointer-events: auto;
-  display: flex;
-  gap: 8px;
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.14);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
-  align-items: center;
-} */
-
 .home-dots {
   position: absolute;
   bottom: var(--space-16);
