@@ -74,15 +74,15 @@
         <!-- Home Section -->
         <section id="home" class="section home-section">
             <!-- Home Slider -->
-            <div class="home-slider" id="homeSlider">
-                <!-- Slides will be rendered dynamically from images in the home folder -->
-            </div>
-
-            <!-- Home Navigation -->
-            <div class="home-nav">
-                <button class="home-nav-btn prev" onclick="previousSlide()">‹</button>
+            <div class="home-images">
+                <div class="home-slider" id="homeSlider">
+                    <!-- Slides will be rendered dynamically from images in the home folder -->
+                </div>
+                <div class="home-nav">
+                    <button class="home-nav-btn prev" onclick="previousSlide()">‹</button>
+                    <button class="home-nav-btn next" onclick="nextSlide()">›</button>
+                </div>
                 <div class="home-dots" id="homeDots"></div>
-                <button class="home-nav-btn next" onclick="nextSlide()">›</button>
             </div>
 
             <!-- Company Introduction -->
@@ -174,14 +174,14 @@
                 <!-- Top Section: Full Width Image Slider -->
                 <div class="modal-image-section">
                     <div class="product-images">
-                        <div class="image-slider" id="productImageSlider">
+                        <div class="image-slider" id="productImageSlider" role="region" aria-label="Product image carousel" aria-live="polite">
                             <!-- Images will be loaded here -->
                         </div>
                         <div class="image-nav">
-                            <button class="image-nav-btn prev" onclick="previousProductImage()">‹</button>
-                            <div class="image-dots" id="productImageDots"></div>
-                            <button class="image-nav-btn next" onclick="nextProductImage()">›</button>
+                            <button class="image-nav-btn prev" onclick="previousProductImage()" aria-label="Previous image">‹</button>
+                            <button class="image-nav-btn next" onclick="nextProductImage()" aria-label="Next image">›</button>
                         </div>
+                        <div class="image-dots" id="productImageDots" role="tablist" aria-label="Image carousel indicators"></div>
                     </div>
                 </div>
 

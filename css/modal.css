@@ -83,12 +83,13 @@
 
 .modal-image-section {
   width: 100%;
-  padding: var(--space-24);
+  padding: var(--space-12);
   border-bottom: 1px solid var(--color-border);
 }
 
 .product-images {
   width: 100%;
+  position: relative;
 }
 
 .image-slider {
@@ -135,10 +136,17 @@
 }
 
 .image-nav {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  gap: var(--space-12);
+  padding: 0 var(--space-12);
+  pointer-events: none;
+  z-index: 10;
 }
 
 .image-nav-btn {
@@ -149,30 +157,73 @@
   background: var(--color-primary);
   color: var(--color-btn-primary-text);
   cursor: pointer;
-  transition: background var(--duration-fast) var(--ease-standard);
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-xl);
+  pointer-events: auto;
+  opacity: 0;
+  transition: background var(--duration-normal) var(--ease-standard);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
 .image-nav-btn:hover {
   background: var(--color-primary-hover);
 }
 
+.image-nav-btn:active {
+  transform: scale(0.95);
+}
+
+/* Show arrows on hover or mobile */
+.product-images:hover .image-nav-btn {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .image-nav-btn {
+    opacity: 0.8;
+  }
+}
+
+/* Image Dots - Minimal Indicators */
 .image-dots {
+  position: absolute;
+  bottom: var(--space-16);
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
-  gap: var(--space-6);
+  gap: var(--space-8);
+  padding: var(--space-8) var(--space-12);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  pointer-events: auto;
+  z-index: 10;
 }
 
 .image-dot {
   width: 8px;
   height: 8px;
   border-radius: var(--radius-full);
-  background: var(--color-secondary);
+  background: rgba(255, 255, 255, 0.65);
   cursor: pointer;
-  transition: background var(--duration-fast) var(--ease-standard);
+  transition: all var(--duration-normal) var(--ease-standard);
+  border: none;
+  padding: 0;
+}
+
+.image-dot:hover {
+  background: rgba(255, 255, 255, 0.85);
+  transform: scale(1.2);
 }
 
 .image-dot.active {
-  background: var(--color-primary);
+  background: white;
+  width: 10px;
+  height: 10px;
 }
 
 /* Two Columns for Product Details */
