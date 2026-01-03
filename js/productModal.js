@@ -1,5 +1,9 @@
 // Product modal: open/close modal and image slider inside modal
 
+// Auto-play state for product images
+let productAutoPlayTimer = null;
+let productAutoPlayEnabled = true;
+
 function openProductModal(productId) {
     const product = (typeof products !== 'undefined') ? products.find(p => p.id === productId) : null;
     if (!product) { console.error('Product not found:', productId); return; }
@@ -39,6 +43,7 @@ function updateModalContent(product) {
 
 function closeProductModal() {
     const modal = document.getElementById('productModal');
+    stopProductAutoPlay();
     if (modal) {
         modal.style.opacity = '0';
         setTimeout(() => {
@@ -78,15 +83,26 @@ function setupProductImageSlider(images) {
         slider.appendChild(slide);
 
         if (images.length > 1) {
-            const dot = document.createElement('div');
+            const dot = document.createElement('button');
             dot.classList.add('image-dot');
             if (index === 0) dot.classList.add('active');
-            dot.addEventListener('click', () => goToProductSlide(index));
+            dot.setAttribute('aria-label', `Go to slide ${index + 1} of ${images.length}`);
+            dot.setAttribute('type', 'button');
+            dot.addEventListener('click', () => {
+                goToProductSlide(index);
+                pauseProductAutoPlay();
+            });
             dotsContainer.appendChild(dot);
         }
     });
 
     currentProductSlide = 0;
+
+    // Only enable auto-play if there are multiple images
+    if (images.length > 1) {
+        startProductAutoPlay();
+        setupProductSliderInteractions();
+    }
 }
 
 function goToProductSlide(index) {
@@ -104,6 +120,7 @@ function nextProductImage() {
     if (slides.length <= 1) return;
     currentProductSlide = (currentProductSlide + 1) % slides.length;
     goToProductSlide(currentProductSlide);
+    pauseProductAutoPlay();
 }
 
 function previousProductImage() {
@@ -111,6 +128,74 @@ function previousProductImage() {
     if (slides.length <= 1) return;
     currentProductSlide = (currentProductSlide - 1 + slides.length) % slides.length;
     goToProductSlide(currentProductSlide);
+    pauseProductAutoPlay();
+}
+
+function startProductAutoPlay() {
+    if (productAutoPlayEnabled) {
+        productAutoPlayTimer = setInterval(() => {
+            const slides = document.querySelectorAll('.product-slide');
+            if (slides.length > 1) {
+                currentProductSlide = (currentProductSlide + 1) % slides.length;
+                goToProductSlide(currentProductSlide);
+            }
+        }, 5000);
+    }
+}
+
+function pauseProductAutoPlay() {
+    if (productAutoPlayTimer) {
+        clearInterval(productAutoPlayTimer);
+        productAutoPlayTimer = null;
+    }
+}
+
+function stopProductAutoPlay() {
+    pauseProductAutoPlay();
+    productAutoPlayEnabled = true;
+}
+
+function setupProductSliderInteractions() {
+    const slider = document.getElementById('productImageSlider');
+    const imagesContainer = document.querySelector('.product-images');
+    
+    if (!slider || !imagesContainer) return;
+
+    // Pause on hover (desktop)
+    imagesContainer.addEventListener('mouseenter', () => {
+        pauseProductAutoPlay();
+    });
+
+    imagesContainer.addEventListener('mouseleave', () => {
+        startProductAutoPlay();
+    });
+
+    // Touch swipe support
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const SWIPE_THRESHOLD = 40;
+
+    slider.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].clientX;
+        pauseProductAutoPlay();
+    }, false);
+
+    slider.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].clientX;
+        handleSwipe();
+        startProductAutoPlay();
+    }, false);
+
+    function handleSwipe() {
+        const swipeDistance = touchStartX - touchEndX;
+        if (Math.abs(swipeDistance) > SWIPE_THRESHOLD) {
+            if (swipeDistance > 0) {
+                nextProductImage();
+            } else {
+                previousProductImage();
+            }
+        }
+    }
 }
 
 function addToInquiry() {
@@ -142,9 +227,17 @@ document.addEventListener('keydown', function (e) {
 
     if (e.key === 'ArrowLeft') {
         const productModal = document.getElementById('productModal');
-        if (productModal && !productModal.classList.contains('hidden')) previousProductImage(); else previousSlide && previousSlide();
+        if (productModal && !productModal.classList.contains('hidden')) {
+            previousProductImage();
+        } else {
+            previousSlide && previousSlide();
+        }
     } else if (e.key === 'ArrowRight') {
         const productModal = document.getElementById('productModal');
-        if (productModal && !productModal.classList.contains('hidden')) nextProductImage(); else nextSlide && nextSlide();
+        if (productModal && !productModal.classList.contains('hidden')) {
+            nextProductImage();
+        } else {
+            nextSlide && nextSlide();
+        }
     }
 });
