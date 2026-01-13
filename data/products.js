@@ -10,7 +10,7 @@ const products = [
     category: "Pain Relief",
     description: "Triple action formula for effective pain and inflammation management",
     image_folder: "pearflam",
-    mrp: 125
+    mrp: 120
   },
   {
     id: "002",
@@ -23,7 +23,7 @@ const products = [
     category: "Allergy Care",
     description: "Dual action allergy relief for Respiratory conditions",
     image_folder: "limson",
-    mrp: 95
+    mrp: 100
   },
   {
     id: "003",
@@ -36,7 +36,7 @@ const products = [
     category: "Antibiotic",
     description: "Broad spectrum antibiotic with anti-protozoal action",
     image_folder: "Oflar",
-    mrp: 110
+    mrp: 99
   },
   {
     id: "004",
@@ -49,7 +49,7 @@ const products = [
     category: "Antibiotic",
     description: "Third generation cephalosporin antibiotic in dispersible form",
     image_folder: "pearcef",
-    mrp: 135
+    mrp: 109
   },
   {
     id: "005",
@@ -62,7 +62,7 @@ const products = [
     category: "Injectable",
     description: "Advanced neurotropic supplement for nerve health",
     image_folder: "bitson",
-    mrp: 85
+    mrp: 99
   },
   {
     id: "006",
@@ -75,7 +75,7 @@ const products = [
     category: "Antibiotic",
     description: "Beta-lactam antibiotic with beta-lactamase inhibitor",
     image_folder: "clavson",
-    mrp: 145
+    mrp: 195.5
   },
   {
     id: "007",
@@ -88,7 +88,7 @@ const products = [
     category: "Gastro Care",
     description: "Proton pump inhibitor with prokinetic agent",
     image_folder: "rson",
-    mrp: 155
+    mrp: 110
   },
   {
     id: "008",
@@ -101,7 +101,7 @@ const products = [
     category: "Syrup",
     description: "Multi-action syrup for productive cough relief",
     image_folder: "qcoldx",
-    mrp: 75
+    mrp: 96
   },
   {
     id: "009",
@@ -114,7 +114,7 @@ const products = [
     category: "Syrup",
     description: "Effective dry cough suppressant with decongestant",
     image_folder: "qcolddx",
-    mrp: 78
+    mrp: 98
   },
   {
     id: "010",
@@ -127,7 +127,7 @@ const products = [
     category: "Injectable",
     description: "Third generation cephalosporin for severe infections",
     image_folder: "cefvit",
-    mrp: 165
+    mrp: 66.64
   },
   {
     id: "011",
@@ -140,6 +140,6 @@ const products = [
     category: "Antibiotic",
     description: "Broad-spectrum cephalosporin antibiotic effective against a wide range of bacterial infections",
     image_folder: "cefpod",
-    mrp: 120
+    mrp: 190
   }
 ];
