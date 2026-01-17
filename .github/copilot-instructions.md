@@ -181,7 +181,6 @@ Performance & build notes:
 - `isValidPhone(phone)` — phone validator (7+ digits)
 - `initializeForms()` — wire up contact and inquiry forms
 - `handleContactForm(e)` — validate and submit contact form (placeholder)
-- `showEmailPreview()`, `copyToClipboard()` — utility functions
 
 **`js/home.js`** (Home slider & app init)
 - `initializeHomeSlider()` — load home slides from `data/homeSlide.js`

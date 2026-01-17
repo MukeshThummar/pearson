@@ -15,6 +15,7 @@ function loadModules() {
         'data/products.js',
         'data/appsettings.js',
         'data/homeSlide.js',
+        'js/gmail.js',
         'js/header.js',
         'js/footer.js',
         'js/productCard.js',

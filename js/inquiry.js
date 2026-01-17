@@ -71,15 +71,61 @@ function closeInquiryModal() {
 }
 
 function clearInquiries() {
+    const form = document.getElementById('InquiryForm');
+    if (form) {
+        form.reset();
+    }
     inquiryList = [];
     updateInquiryCount();
     updateInquiryList();
-    showNotification && showNotification('All inquiries cleared', 'info');
 }
 
-function sendInquiry() {
-    showNotification && showNotification('Under Construction', 'info');
+async function sendInquiry() {
     const form = document.getElementById('InquiryForm');
-    if (form) form.reset();
-    closeInquiryModal();
+    if (!form) {
+        showNotification && showNotification('Inquiry form not found', 'error');
+        return;
+    }
+
+    const senderName = document.getElementById('inquiryName')?.value?.trim() || '';
+    const senderEmail = document.getElementById('inquiryEmail')?.value?.trim() || '';
+    const senderPhone = document.getElementById('inquiryPhone')?.value?.trim() || '';
+    const senderCompany = document.getElementById('inquiryCompany')?.value?.trim() || '';
+    const message = document.getElementById('inquiryMessage')?.value?.trim() || '';
+
+    if (!senderName || !senderEmail || !senderPhone) {
+        showNotification && showNotification('Please fill in all required fields (name, email, phone)', 'error');
+        return;
+    }
+
+    if (!isValidEmail(senderEmail)) {
+        showNotification && showNotification('Please enter a valid email address', 'error');
+        return;
+    }
+
+    if (!isValidPhone(senderPhone)) {
+        showNotification && showNotification('Please enter a valid phone number', 'error');
+        return;
+    }
+
+    if (inquiryList.length === 0) {
+        showNotification && showNotification('Please add at least one product to your inquiry', 'error');
+        return;
+    }
+
+    const sent = await sendEmail({
+        name: senderName,
+        email: senderEmail,
+        phone: senderPhone,
+        company: senderCompany,
+        message: message,
+        products: inquiryList,
+        type: 'inquiry'
+    });
+
+    if (sent) {
+        form.reset();
+        clearInquiries();
+        closeInquiryModal();
+    }
 }

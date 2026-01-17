@@ -18,6 +18,9 @@ const appsettings = {
         whatsapp: {
             phoneNumber: '+919512257160', 
             message: 'Hello! I am interested in your pharmaceutical products. Can you provide more information?' 
+        },
+        gmail: {
+            webhookUrl: 'https://script.google.com/macros/s/AKfycbyEQ4DmNwdy3m3Q8GwgU5OLpWVE3HPoSXZ7It8ia6pgEAaYgY_0fzxQrd6T9l5_jrD8QA/exec' 
         }
     }
 };
