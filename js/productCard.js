@@ -12,49 +12,34 @@ function getImageFolder(product) {
     return slugifyName(product.name || product.id || 'product');
 }
 
-function resolveProductImages(product, callback, maxCount = 10) {
-    if (product && Array.isArray(product.images) && product.images.length > 0) {
-        callback(product.images);
-        return;
-    }
-
-    const folder = getImageFolder(product);
-    if (!folder) {
+function resolveProductImages(product, callback) {
+    if (!product) {
         callback([]);
         return;
     }
 
-    const candidates = [];
-    for (let i = 1; i <= maxCount; i++) {
-        candidates.push(`./images/${folder}/${i}.png`);
-        candidates.push(`./images/${folder}/${i}.jpg`);
+    // Check if product has images array with GUID-based filenames
+    if (Array.isArray(product.images) && product.images.length > 0) {
+        const folder = getImageFolder(product);
+        const imageUrls = product.images.map(imageName => `./images/${folder}/${imageName}`);
+        
+        // Validate that main image (first one) exists
+        const mainImagePath = imageUrls[0];
+        const testImg = new Image();
+        
+        testImg.onload = function () {
+            callback(imageUrls);
+        };
+        
+        testImg.onerror = function () {
+            callback([]);
+        };
+        
+        testImg.src = mainImagePath;
+        return;
     }
-    candidates.push(`./images/${folder}/main.png`);
-    candidates.push(`./images/${folder}/main.jpg`);
 
-    const results = [];
-    let remaining = candidates.length;
-    if (remaining === 0) return callback([]);
-
-    candidates.forEach(src => {
-        const img = new Image();
-        img.onload = function () { results.push(src); checkDone(); };
-        img.onerror = function () { checkDone(); };
-        img.src = src;
-    });
-
-    function checkDone() {
-        remaining--;
-        if (remaining <= 0) {
-            const unique = Array.from(new Set(results));
-            const mainIdx = unique.findIndex(u => /\/main\.(png|jpg|jpeg|webp)$/i.test(u));
-            if (mainIdx > 0) {
-                const [main] = unique.splice(mainIdx, 1);
-                unique.unshift(main);
-            }
-            callback(unique);
-        }
-    }
+    callback([]);
 }
 
 function createProductCard(product) {

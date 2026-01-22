@@ -4,62 +4,11 @@ function initializeHomeSlider() {
     const slider = document.getElementById('homeSlider');
     const dotsContainer = document.getElementById('homeDots');
     if (!slider || !dotsContainer) return;
-
-    try { if (!Array.isArray(slides) || slides.length === 0) return; } catch (e) { console.error('Error loading home slides data:', e); return; }
-    const homeImagePath = (appsettings && appsettings.imagePathHomeSlide) || '';
-    const results = [];
-    slides.forEach(s => {
-        if (!s || !s.image) return;
-        const src = `${homeImagePath}${s.image}`;
-        const img = new Image();
-        img.onload = function () { results.push({ src: src, title: s.title, subtitle: s.subtitle }); renderHomeSlidesFromImages(results, slider, dotsContainer); };
-        img.onerror = function () { renderHomeSlidesFromImages(results, slider, dotsContainer); };
-        img.src = src;
-    });
+    if (!Array.isArray(slides) || slides.length === 0) return;
+    renderHomeSlides(slides, slider, dotsContainer);
 }
 
-function renderHomeSlidesFromImages(images, slider, dotsContainer) {
-    slider.innerHTML = '';
-    images.forEach((item, index) => {
-        const data = (typeof item === 'string') ? { src: item } : item || {};
-        const src = data.src;
-        if (!src) return;
-        const slide = document.createElement('div');
-        slide.classList.add('home-slide');
-        if (index === 0) slide.classList.add('active');
-        const titleHtml = data.title ? `<h1>${data.title}</h1>` : '';
-        const subtitleHtml = data.subtitle ? `<p>${data.subtitle}</p>` : '';
-        slide.innerHTML = `
-            <img src="${src}" alt="Slide ${index + 1}">
-            <div class="home-content">
-                ${titleHtml}
-                ${subtitleHtml}
-            </div>
-        `;
-        slider.appendChild(slide);
-    });
 
-    dotsContainer.innerHTML = '';
-    images.forEach((_, index) => {
-        const dot = document.createElement('div');
-        dot.classList.add('home-dot');
-        if (index === 0) dot.classList.add('active');
-        dot.addEventListener('click', () => goToSlide(index));
-        dotsContainer.appendChild(dot);
-    });
-
-    if (homeAutoAdvance) clearInterval(homeAutoAdvance);
-    homeAutoAdvance = setInterval(nextSlide, 5000);
-
-    let touchStartX = 0; let touchEndX = 0;
-    function handleTouchStart(e) { touchStartX = e.changedTouches[0].screenX; }
-    function handleTouchEnd(e) {
-        touchEndX = e.changedTouches[0].screenX; const diff = touchStartX - touchEndX; const threshold = 40;
-        if (Math.abs(diff) > threshold) { if (diff > 0) nextSlide(); else previousSlide(); if (homeAutoAdvance) { clearInterval(homeAutoAdvance); homeAutoAdvance = setInterval(nextSlide, 5000); } }
-    }
-
-    try { slider.addEventListener('touchstart', handleTouchStart, { passive: true }); slider.addEventListener('touchend', handleTouchEnd, { passive: true }); } catch (e) {}
-}
 
 function renderHomeSlides(slidesArr, slider, dotsContainer) {
     slider.innerHTML = '';
@@ -68,7 +17,7 @@ function renderHomeSlides(slidesArr, slider, dotsContainer) {
         slide.classList.add('home-slide');
         if (index === 0) slide.classList.add('active');
         slide.innerHTML = `
-            <img src="${s.image}" alt="${s.title}">
+            <img src="./images/${s.image}" alt="${s.title}">
             <div class="home-content">
                 <h1>${s.title}</h1>
                 <p>${s.subtitle}</p>
@@ -84,7 +33,30 @@ function renderHomeSlides(slidesArr, slider, dotsContainer) {
         dot.addEventListener('click', () => goToSlide(index));
         dotsContainer.appendChild(dot);
     });
-    setInterval(nextSlide, 5000);
+
+    if (homeAutoAdvance) clearInterval(homeAutoAdvance);
+    homeAutoAdvance = setInterval(nextSlide, 5000);
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+    function handleTouchStart(e) {
+        touchStartX = e.changedTouches[0].screenX;
+    }
+    function handleTouchEnd(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        const diff = touchStartX - touchEndX;
+        const threshold = 40;
+        if (Math.abs(diff) > threshold) {
+            if (diff > 0) nextSlide();
+            else previousSlide();
+            if (homeAutoAdvance) {
+                clearInterval(homeAutoAdvance);
+                homeAutoAdvance = setInterval(nextSlide, 5000);
+            }
+        }
+    }
+    slider.addEventListener('touchstart', handleTouchStart, { passive: true });
+    slider.addEventListener('touchend', handleTouchEnd, { passive: true });
 }
 
 function goToSlide(index) {

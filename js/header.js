@@ -44,7 +44,6 @@ function initializeNavigation() {
 }
 
 function navigateToSection(sectionName) {
-    console.log('Navigating to:', sectionName);
     const targetSection = document.getElementById(sectionName);
     if (targetSection) {
         targetSection.scrollIntoView({

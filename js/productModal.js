@@ -6,7 +6,7 @@ let productAutoPlayEnabled = true;
 
 function openProductModal(productId) {
     const product = (typeof products !== 'undefined') ? products.find(p => p.id === productId) : null;
-    if (!product) { console.error('Product not found:', productId); return; }
+    if (!product) return;
 
     currentProduct = product;
     updateModalContent(product);
