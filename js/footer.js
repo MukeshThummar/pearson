@@ -86,11 +86,11 @@ function populateAppSettings() {
         const desc = company.description;
 
         if (name) {
-            try { document.title = name; } catch (e) {}
-            if (company.logoPath) {
-                const favicon = document.querySelector('link[rel="icon"]');
-                if (favicon) favicon.setAttribute('href', company.logoPath);
-            }
+            // try { document.title = name; } catch (e) {}
+            // if (company.logoPath) {
+            //     const favicon = document.querySelector('link[rel="icon"]');
+            //     if (favicon) favicon.setAttribute('href', company.logoPath);
+            // }
             const logoImg = document.getElementById('company-logo');
             if (logoImg) {
                 if (company.logoPath) logoImg.setAttribute('src', company.logoPath);
@@ -105,8 +105,8 @@ function populateAppSettings() {
         }
 
         if (desc) {
-            const metaDesc = document.querySelector('meta[name="description"]');
-            if (metaDesc) metaDesc.setAttribute('content', name + ' - ' + desc);
+            // const metaDesc = document.querySelector('meta[name="description"]');
+            // if (metaDesc) metaDesc.setAttribute('content', name + ' - ' + desc);
             const introDesc = document.getElementById('company-description');
             if (introDesc) introDesc.textContent = desc;
             const footerDesc = document.getElementById('footer-company-desc');
