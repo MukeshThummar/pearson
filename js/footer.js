@@ -102,6 +102,10 @@ function populateAppSettings() {
             if (footerName) footerName.textContent = name;
             const copyEl = document.getElementById('footer-copyright');
             if (copyEl) copyEl.innerHTML = '&copy; ' + new Date().getFullYear() + ' ' + (name || '') + '. All rights reserved.';
+            
+            // // Populate SEO hidden H1 tag
+            // const seoHeading = document.getElementById('seo-main-heading');
+            // if (seoHeading) seoHeading.textContent = name;
         }
 
         if (desc) {
@@ -111,6 +115,10 @@ function populateAppSettings() {
             if (introDesc) introDesc.textContent = desc;
             const footerDesc = document.getElementById('footer-company-desc');
             if (footerDesc) footerDesc.textContent = desc;
+            
+            // // Populate SEO hidden P tag
+            // const seoDescription = document.getElementById('seo-main-description');
+            // if (seoDescription) seoDescription.textContent = desc;
         }
     } catch (err) {
         console.error('Failed to populate contact from settings', err);
