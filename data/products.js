@@ -60,7 +60,7 @@ const products = [
   },
   {
     id: "004",
-    name: "PearCEF 200 DT",
+    name: "Pearcef 200 DT",
     subtitle: "Cefixime Dispersible Tablets",
     composition: "Each dispersible tablet contains Cefixime (200mg)",
     indications: "This antibiotic used to treat various bacterial infections like respiratory tract infections (e.g., pneumonia), urinary tract infections, ear, nasal sinus, throat.",
