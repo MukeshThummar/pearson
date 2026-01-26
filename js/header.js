@@ -29,10 +29,17 @@ function initializeNavigation() {
         if (navToggle) navToggle.setAttribute('aria-expanded','false');
     }
 
+    const drawerCloseBtn = document.querySelector('.drawer-close');
+    
     if (navToggle) {
         navToggle.addEventListener('click', function () {
             if (mobileDrawer && mobileDrawer.classList.contains('open')) closeDrawer(); else openDrawer();
         });
+    }
+
+    // Close drawer when clicking close button
+    if (drawerCloseBtn) {
+        drawerCloseBtn.addEventListener('click', closeDrawer);
     }
 
     drawerBackdrop.addEventListener('click', closeDrawer);
